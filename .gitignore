@@ -1,0 +1,8 @@
+# Ignore Gradle project-specific cache directory
+.gradle/
+.idea/
+*.iml
+build/
+.serverless/
+node_modules/
+out/
