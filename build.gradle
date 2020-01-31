@@ -60,4 +60,3 @@ generatePomFileForCommonJvmPublication.dependsOn {
   build
 }
 
-
