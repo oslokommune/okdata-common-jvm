@@ -55,8 +55,9 @@ publishing {
   }
 }
 
-generatePomFileForCommonJvmPublication.dependsOn {
-  incrementPatch
-  build
+generateMetadataFileForCommonJvmPublication {
+  dependsOn incrementPatch
+  doLast {
+    build
+  }
 }
-
