@@ -1,0 +1,45 @@
+{
+  "execution_name": "uuid-uuid-uuid-uuid",
+  "task": "transform_csv",
+  "payload": {
+    "pipeline": {
+      "id": "husholdninger-med-barn",
+      "task_config": {
+        "excel_to_csv": {
+          "pivot_column": "Barn i husholdningen",
+          "value_column": "Antall"
+        },
+        "validate_input": {
+          "schema": "<json schema>"
+        },
+        "write_cleaned": {
+          "output_stage": "cleaned"
+        },
+        "transform_csv": {
+          "delimiter": ";",
+          "header_row": true,
+          "csvlt": "<csvlt transformation>"
+        },
+        "validate_output": {
+          "schema": "<json schema>"
+        },
+        "write_processed": {
+          "output_stage": "processed"
+        }
+      }
+    },
+    "output_dataset": {
+      "id": "husholdninger-med-barn",
+      "version": "1",
+      "edition": "20200120T133700",
+      "s3_prefix": "%stage%/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
+    },
+    "step_data": {
+      "s3_input_prefixes": {
+        "husholdninger-med-barn": "raw/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
+      },
+      "status": "OK",
+      "errors": []
+    }
+  }
+}
