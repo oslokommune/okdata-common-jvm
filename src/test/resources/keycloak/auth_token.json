@@ -1,0 +1,10 @@
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6ImY4ZDFkMjg5LTJlMDgtNDAxOC1iNzA4LWYxY2QzZTBmODMyMiIsImlhdCI6MTU4MDkxMjg3MywiZXhwIjoxNTgwOTE2NDczfQ.xi8_wCmN8IpYsCCWZxJT7THjZ34muiUzsTEWLogIlpk",
+  "expires_in": 900,
+  "refresh_expires_in": 1800,
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMTIzMTIzMTIzIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6ImY4ZDFkMjg5LTJlMDgtNDAxOC1iNzA4LWYxY2QzZTBmODMyMiIsImlhdCI6MTU4MDkxMjg3MywiZXhwIjoxNTgwOTE2NTgwfQ.XQigyckEt_mnvoVETWEzF7wRGIi_OUkkVnohsKPAm_g",
+  "token_type": "bearer",
+  "not-before-policy": 1563194597,
+  "session_state": "a3107feb-6ad8-4f9b-a2c0-aa1ee7c86661",
+  "scope": "profile email"
+}
