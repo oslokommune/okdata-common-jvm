@@ -61,6 +61,11 @@ publishing {
   }
 }
 
+build {
+  dependsOn ktlintMainSourceSetCheck
+  dependsOn test
+}
+
 generateMetadataFileForCommonJvmPublication {
   dependsOn incrementPatch
   doLast {
