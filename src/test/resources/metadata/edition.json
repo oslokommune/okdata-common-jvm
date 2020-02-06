@@ -1,0 +1,10 @@
+{
+  "edition": "2020-02-01T12:41:31+00:00",
+  "Id": "alder-distribusjon-status/1/20200201T124131",
+  "Type": "Edition",
+  "_links": {
+    "self": {
+      "href": "/datasets/alder-distribusjon-status/versions/1/editions/20200201T124131"
+    }
+  }
+}

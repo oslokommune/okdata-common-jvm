@@ -1,0 +1,26 @@
+{
+  "theme": "Befolkning og samfunn",
+  "processing_stage": "processed",
+  "frequency": null,
+  "contactPoint": {
+    "name": "Bydelsfakta",
+    "email": "bydelsfakta@byr.oslo.kommune.no"
+  },
+  "Type": "Dataset",
+  "publisher": "Origo",
+  "confidentiality": "yellow",
+  "keywords": [
+    "utdanning"
+  ],
+  "objective": "Datagrunnlag for visualisering i faktaark",
+  "description": "Aldersdistribusjon fordelt på kjønn",
+  "Id": "alder-distribusjon-status",
+  "title": "Alder distribusjon status",
+  "accessRights": "restricted",
+  "parent_id": "bydelsfakta-grafdata",
+  "_links": {
+    "self": {
+      "href": "/datasets/alder-distribusjon-status"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "filename": "05.json",
+  "Id": "alder-distribusjon-status/1/20200201T124131/026aa259-bf7f-4559-9bd1-c10198ab17ed",
+  "Type": "Distribution",
+  "_links": {
+    "self": {
+      "href": "/datasets/alder-distribusjon-status/versions/1/editions/20200201T124131/distributions/026aa259-bf7f-4559-9bd1-c10198ab17ed"
+    }
+  }
+}
