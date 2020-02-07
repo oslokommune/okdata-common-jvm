@@ -32,17 +32,17 @@ class MetadataClient(var api: String) : DataplatformClient() {
     fun get(path: String, queryParams: List<Pair<String, String>>? = null): ByteArray {
         val url = api + path
         val request = Fuel.get(path = url, parameters = queryParams)
-        return handleResult(request)
+        return performRequest(request)
     }
 
     fun post(path: String, body: String): ByteArray {
         val request = "$api$path".httpPost().jsonBody(body)
-        return handleResult(request)
+        return performRequest(request)
     }
 
     fun post(path: String, body: Any, headers: List<Pair<String, String>>?): ByteArray {
         val request = "$api$path".httpPost().body(om.writeValueAsBytes(body)).withHeaders(headers)
-        return handleResult(request)
+        return performRequest(request)
     }
 
     fun listDatasets(): List<Dataset> {
