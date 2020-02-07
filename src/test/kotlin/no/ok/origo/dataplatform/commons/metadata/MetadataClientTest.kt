@@ -23,7 +23,6 @@ class MetadataClientTest : AnnotationSpec() {
 
     @BeforeEach
     fun beforeEach() {
-        val (datasetid, versionid, editionid, distributionid) = distribution.Id.split("/")
         client = spyk(MetadataClient("http://example.com/"))
     }
 

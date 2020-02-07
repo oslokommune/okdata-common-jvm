@@ -50,7 +50,7 @@ class MetadataClient(var api: String) : DataplatformClient() {
     }
 
     fun getDataset(datasetid: String): Dataset {
-        return get(datasetPath()).readValue(om)
+        return get(datasetPath(datasetid)).readValue(om)
     }
 
     fun listVersions(datasetid: String): List<Version> {
