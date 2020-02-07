@@ -67,8 +67,7 @@ build {
 }
 
 generateMetadataFileForCommonJvmPublication {
-  dependsOn incrementPatch
-  doLast {
-    build
+  dependsOn {
+    incrementPatch
   }
 }
