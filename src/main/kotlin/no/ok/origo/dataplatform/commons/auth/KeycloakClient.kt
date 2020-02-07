@@ -13,11 +13,11 @@ class KeycloakClient(val server: String, val realm: String) : DataplatformClient
 
     fun wellKnownConfiguration(): JsonNode {
         val request = Fuel.get(path = server + "auth/realms/$realm/.well-known/openid-configuration")
-        return handleResult(request).readValue(om)
+        return performRequest(request).readValue(om)
     }
 
     fun tokenRequest(parameters: List<Pair<String, String>>): AuthToken {
         val request = Fuel.post(path = tokenEndpoint, parameters = parameters)
-        return handleResult(request).readValue(om)
+        return performRequest(request).readValue(om)
     }
 }

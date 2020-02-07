@@ -14,16 +14,16 @@ abstract class DataplatformClient {
     private val logger = loggerFor(this::class.java)
     val om = jacksonObjectMapper()
 
-    fun handleResult(newRequest: Request): ByteArray {
-        val preparedRequest = addAuthorizationHeader(newRequest)
-        val (request, response, result) = preparedRequest.response()
+    fun performRequest(request: Request): ByteArray {
+        addAuthorizationHeader(request)
+        val (preparedRequest, response, result) = request.response()
 
         return when (result) {
             is Result.Success -> result.get()
             is Result.Failure -> {
                 logger.debug("Request: " +
-                        "url: ${request.url} " +
-                        "body: ${request.body} "
+                        "url: ${preparedRequest.url} " +
+                        "body: ${preparedRequest.body} "
                 )
 
                 logger.debug("Response: " +
