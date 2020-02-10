@@ -1,0 +1,10 @@
+{
+  "Id": "alder-distribusjon-status/1",
+  "version": "1",
+  "Type": "Version",
+  "_links": {
+    "self": {
+      "href": "/datasets/alder-distribusjon-status/versions/1"
+    }
+  }
+}

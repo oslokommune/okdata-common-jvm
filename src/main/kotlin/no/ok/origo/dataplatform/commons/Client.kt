@@ -12,7 +12,7 @@ interface AuthorizedClient {
 
 abstract class DataplatformClient {
     private val logger = loggerFor(this::class.java)
-    val om = jacksonObjectMapper()
+    open val om = jacksonObjectMapper()
 
     fun performRequest(request: Request): ByteArray {
         addAuthorizationHeader(request)
