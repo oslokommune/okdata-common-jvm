@@ -28,6 +28,7 @@ dependencies {
   testImplementation "org.slf4j:slf4j-simple:1.7.26"
   testImplementation "io.mockk:mockk:1.9.+"
   testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
+  testImplementation "com.github.tomakehurst:wiremock-jre8:2.25.1"
 }
 
 compileKotlin {
