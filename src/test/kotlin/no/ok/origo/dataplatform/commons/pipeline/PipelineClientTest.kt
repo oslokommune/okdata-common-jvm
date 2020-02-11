@@ -10,7 +10,6 @@ import io.mockk.slot
 import io.mockk.spyk
 import no.ok.origo.dataplatform.commons.TestUtils
 import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
-import no.ok.origo.dataplatform.commons.auth.KeycloakClient
 import no.ok.origo.dataplatform.commons.pipeline.api.Pipeline
 import no.ok.origo.dataplatform.commons.pipeline.api.PipelineInput
 import no.ok.origo.dataplatform.commons.pipeline.api.PipelineInstance
