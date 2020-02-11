@@ -1,4 +1,4 @@
-package no.ok.origo.dataplatform.commons.pipeline.models
+package no.ok.origo.dataplatform.commons.pipeline.config
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
@@ -21,9 +21,9 @@ data class Config(
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class Payload(
-    val pipeline: Pipeline,
-    val outputDataset: OutputDataset,
-    val stepData: StepData
+        val pipeline: Pipeline,
+        val outputDataset: OutputDataset,
+        val stepData: StepData
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
