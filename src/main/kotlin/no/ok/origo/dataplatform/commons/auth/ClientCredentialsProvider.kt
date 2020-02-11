@@ -40,6 +40,7 @@ class ClientCredentialsProvider(
     fun refreshToken(): AuthToken {
         val formData = listOf(
                 "client_id" to clientId,
+                "client_secret" to clientSecret,
                 "refresh_token" to _token.refreshToken,
                 "grant_type" to "refresh_token"
         )
