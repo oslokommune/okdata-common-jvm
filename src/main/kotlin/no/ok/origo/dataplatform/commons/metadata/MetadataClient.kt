@@ -1,5 +1,7 @@
 package no.ok.origo.dataplatform.commons.metadata
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
@@ -13,6 +15,8 @@ import no.ok.origo.dataplatform.commons.withHeaders
 class MetadataClient(val api: String) : DataplatformClient() {
     override val om = jacksonObjectMapper()
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
 
     fun datasetPath(datasetid: String? = null) =
             listOfNotNull("datasets", datasetid)
