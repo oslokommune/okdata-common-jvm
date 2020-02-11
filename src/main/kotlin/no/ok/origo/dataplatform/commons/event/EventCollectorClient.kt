@@ -6,9 +6,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.HttpException
+import kotlin.text.Charsets.UTF_8
 import no.ok.origo.dataplatform.commons.AuthorizedClient
 import no.ok.origo.dataplatform.commons.DataplatformClient
-import kotlin.text.Charsets.UTF_8
 import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
 import no.ok.origo.dataplatform.commons.readValue
 
@@ -31,12 +31,9 @@ class EventCollectorClient(
 
         try {
             return performRequest(request).readValue(om)
-        }
-        catch (fe: FuelError) {
+        } catch (fe: FuelError) {
             val responseBody = om.readValue(fe.response.data, EventCollectorResponse::class.java)
             throw HttpException(fe.response.statusCode, responseBody.message)
         }
-
-
     }
 }
