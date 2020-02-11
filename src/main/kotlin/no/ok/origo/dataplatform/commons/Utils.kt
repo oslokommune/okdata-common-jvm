@@ -18,3 +18,11 @@ fun Request.withHeaders(headers: List<Pair<String, String>>?): Request {
         this.header(headers.toMap())
     }
 }
+
+fun String.ensureLast(char: Char): String {
+    return if (this.last() == char) {
+        this
+    } else {
+        this + char
+    }
+}

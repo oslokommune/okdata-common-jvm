@@ -6,10 +6,11 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpPost
 import no.ok.origo.dataplatform.commons.DataplatformClient
+import no.ok.origo.dataplatform.commons.ensureLast
 import no.ok.origo.dataplatform.commons.readValue
 import no.ok.origo.dataplatform.commons.withHeaders
 
-class MetadataClient(var api: String) : DataplatformClient() {
+class MetadataClient(val api: String) : DataplatformClient() {
     override val om = jacksonObjectMapper()
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
 
@@ -30,18 +31,18 @@ class MetadataClient(var api: String) : DataplatformClient() {
                     .joinToString("/")
 
     fun get(path: String, queryParams: List<Pair<String, String>>? = null): ByteArray {
-        val url = api + path
+        val url = api.ensureLast('/') + path
         val request = Fuel.get(path = url, parameters = queryParams)
         return performRequest(request)
     }
 
     fun post(path: String, body: String): ByteArray {
-        val request = "$api$path".httpPost().jsonBody(body)
+        val request = "${api.ensureLast('/')}$path".httpPost().jsonBody(body)
         return performRequest(request)
     }
 
     fun post(path: String, body: Any, headers: List<Pair<String, String>>?): ByteArray {
-        val request = "$api$path".httpPost().body(om.writeValueAsBytes(body)).withHeaders(headers)
+        val request = "${api.ensureLast('/')}$path".httpPost().body(om.writeValueAsBytes(body)).withHeaders(headers)
         return performRequest(request)
     }
 
