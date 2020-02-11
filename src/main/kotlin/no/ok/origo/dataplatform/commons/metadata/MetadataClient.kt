@@ -31,7 +31,7 @@ class MetadataClient(val api: String) : DataplatformClient() {
                     .joinToString("/")
 
     fun distributionPath(datasetid: String, version: String, edition: String, distribution: String? = null) =
-            listOfNotNull(editionPath(datasetid, version, edition), "distribution", distribution)
+            listOfNotNull(editionPath(datasetid, version, edition), "distributions", distribution)
                     .joinToString("/")
 
     fun get(path: String, queryParams: List<Pair<String, String>>? = null): ByteArray {
