@@ -10,6 +10,7 @@ import kotlin.text.Charsets.UTF_8
 import no.ok.origo.dataplatform.commons.AuthorizedClient
 import no.ok.origo.dataplatform.commons.DataplatformClient
 import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
+import no.ok.origo.dataplatform.commons.ensureLast
 import no.ok.origo.dataplatform.commons.readValue
 
 class EventCollectorClient(
@@ -26,7 +27,7 @@ class EventCollectorClient(
 
         if (jsonEventList.isEmpty()) return EventCollectorResponse("Empty event list, skipping post")
 
-        val request = Fuel.post("$eventCollectorBaseUrl/events/$datasetId/$version")
+        val request = Fuel.post(eventCollectorBaseUrl.ensureLast('/') + "events/$datasetId/$version")
                 .body(eventBodyObjectMapper.writeValueAsString(jsonEventList), charset = UTF_8)
 
         try {
