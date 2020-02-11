@@ -1,11 +1,12 @@
 package no.ok.origo.dataplatform.commons.pipeline.api
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 
 data class Pipeline(
     val arn: String,
     val template: String? = null,
-    val transformation_schema: String
+    @JsonProperty("transformation_schema") val transformationSchema: String
 )
 
 data class PipelineInput(

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 
-class ConfigTest : AnnotationSpec() {
+class ModelsTest : AnnotationSpec() {
 
     lateinit var config: Config
     val raw_json = this::class.java.getResource("/input_event.json").readText()
