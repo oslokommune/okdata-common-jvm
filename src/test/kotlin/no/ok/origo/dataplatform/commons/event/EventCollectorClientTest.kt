@@ -63,7 +63,7 @@ class EventCollectorClientTest : AnnotationSpec() {
         val testObject = TestEvent("foo", "bar")
         val eventList = listOf(testObject, testObject)
         wireMockServer.stubFor(post(urlEqualTo(route))
-                .withHeader("Authorization", equalTo("Bearer ${authToken.accessToken}"))
+                .withHeader("Authorization", equalTo("bearer ${authToken.accessToken}"))
                 .withRequestBody(equalTo(jacksonObjectMapper().writeValueAsString(eventList)))
                 .willReturn(aResponse()
                         .withStatus(200)
