@@ -21,9 +21,9 @@ data class Config(
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class Payload(
-        val pipeline: Pipeline,
-        val outputDataset: OutputDataset,
-        val stepData: StepData
+    val pipeline: Pipeline,
+    val outputDataset: OutputDataset,
+    val stepData: StepData
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)

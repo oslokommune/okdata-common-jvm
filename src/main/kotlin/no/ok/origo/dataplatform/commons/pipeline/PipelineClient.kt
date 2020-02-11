@@ -12,7 +12,8 @@ import no.ok.origo.dataplatform.commons.readValue
 
 class PipelineClient(
     private val credentialsProvider: ClientCredentialsProvider,
-    var baseUrl: String ) : AuthorizedClient, DataplatformClient() {
+    var baseUrl: String
+) : AuthorizedClient, DataplatformClient() {
     override fun getToken() = credentialsProvider.token
 
     fun get(path: String, queryParams: List<Pair<String, String>>? = null): ByteArray {
@@ -21,7 +22,7 @@ class PipelineClient(
         return performRequest(request)
     }
 
-    private fun pipelinePath() = "pipelines"
+    fun pipelinePath() = "pipelines"
     fun pipelineInstancePath() = "pipeline-instances"
     fun pipelineInputPath(pipelineInstanceId: String) = "pipeline-instances/$pipelineInstanceId/inputs"
 
@@ -38,7 +39,7 @@ class PipelineClient(
     }
 
     fun getPipelineInstances(inputDatasetId: String, inputDatasetVersion: String, inputDatasetStage: String?): List<PipelineInstance> {
-        val params = if(inputDatasetStage == null) {
+        val params = if (inputDatasetStage == null) {
             listOf("datasetid" to inputDatasetId, "version" to inputDatasetVersion)
         } else {
             listOf("datasetid" to inputDatasetId, "version" to inputDatasetVersion, "stage" to inputDatasetStage)
@@ -54,8 +55,7 @@ class PipelineClient(
         return get(pipelineInputPath(pipelineInstanceId)).readValue(om)
     }
 
-    fun PipelineInstance.getPipelineInputs(): List<PipelineInput>{
+    fun PipelineInstance.getPipelineInputs(): List<PipelineInput> {
         return getPipelineInputs(id)
     }
-
 }
