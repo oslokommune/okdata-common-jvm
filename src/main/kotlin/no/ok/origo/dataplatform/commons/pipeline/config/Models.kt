@@ -1,4 +1,4 @@
-package no.ok.origo.dataplatform.commons.pipeline.models
+package no.ok.origo.dataplatform.commons.pipeline.config
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
