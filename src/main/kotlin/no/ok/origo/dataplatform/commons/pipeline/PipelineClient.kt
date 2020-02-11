@@ -37,7 +37,7 @@ class PipelineClient(
         return get(pipelineInstancePath() + "/$id").readValue(om)
     }
 
-    fun getPipelineInstance(inputDatasetId: String, inputDatasetVersion: String, inputDatasetStage: String?): List<PipelineInstance> {
+    fun getPipelineInstances(inputDatasetId: String, inputDatasetVersion: String, inputDatasetStage: String?): List<PipelineInstance> {
         val params = if(inputDatasetStage == null) {
             listOf("datasetid" to inputDatasetId, "version" to inputDatasetVersion)
         } else {
