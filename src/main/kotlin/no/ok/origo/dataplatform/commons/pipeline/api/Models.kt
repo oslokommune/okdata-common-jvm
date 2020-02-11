@@ -13,7 +13,7 @@ data class PipelineInput(
     val pipelineInstanceId: String,
     val datasetUri: String,
     val stage: String
-){
+) {
     fun dataset() = datasetUri.split("/")[1]
     fun version() = datasetUri.split("/")[2]
 }
@@ -26,7 +26,7 @@ data class PipelineInstance(
     val transformation: JsonNode?,
     val taskConfig: JsonNode? = null,
     val useLatestEdition: Boolean
-){
+) {
     fun dataset() = datasetUri.split("/")[1]
     fun version() = datasetUri.split("/")[2]
 }
