@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode
 data class Pipeline(
     val arn: String,
     val template: String? = null,
-    @JsonProperty("transformation_schema") val transformationSchema: String
+    @JsonProperty("transformation_schema") val transformationSchema: JsonNode?,
+    @JsonProperty("task_config") val taskConfig: JsonNode?
 )
 
 data class PipelineInput(
