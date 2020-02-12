@@ -40,9 +40,9 @@ class PipelineClient(
 
     fun getPipelineInstances(inputDatasetId: String, inputDatasetVersion: String, inputDatasetStage: String?): List<PipelineInstance> {
         val params = if (inputDatasetStage == null) {
-            listOf("datasetid" to inputDatasetId, "version" to inputDatasetVersion)
+            listOf("dataset-id" to inputDatasetId, "version" to inputDatasetVersion)
         } else {
-            listOf("datasetid" to inputDatasetId, "version" to inputDatasetVersion, "stage" to inputDatasetStage)
+            listOf("dataset-id" to inputDatasetId, "version" to inputDatasetVersion, "stage" to inputDatasetStage)
         }
         return get(pipelineInstancePath(), params).readValue(om)
     }

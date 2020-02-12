@@ -107,7 +107,7 @@ internal class PipelineClientTest : AnnotationSpec() {
         ) shouldBe listOf(pipelineInstance)
 
         path.captured shouldBe "pipeline-instances"
-        params.captured shouldBe listOf("datasetid" to inputDatasetId, "version" to inputVersion, "stage" to pipelineInput.stage)
+        params.captured shouldBe listOf("dataset-id" to inputDatasetId, "version" to inputVersion, "stage" to pipelineInput.stage)
     }
 
     @Test

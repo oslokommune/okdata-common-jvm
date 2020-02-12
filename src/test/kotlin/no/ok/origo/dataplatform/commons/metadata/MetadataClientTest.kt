@@ -88,8 +88,8 @@ class MetadataClientTest : AnnotationSpec() {
         val (datasetid, versionid, editionid, distributionid) = distribution.Id.split("/")
         val listDistributionsPath = client.distributionPath(datasetid, versionid, editionid)
         val getDistributionsPath = client.distributionPath(datasetid, versionid, editionid, distributionid)
-        listDistributionsPath shouldBe "datasets/$datasetid/versions/$versionid/editions/$editionid/distribution"
-        getDistributionsPath shouldBe "datasets/$datasetid/versions/$versionid/editions/$editionid/distribution/$distributionid"
+        listDistributionsPath shouldBe "datasets/$datasetid/versions/$versionid/editions/$editionid/distributions"
+        getDistributionsPath shouldBe "datasets/$datasetid/versions/$versionid/editions/$editionid/distributions/$distributionid"
 
         every { client.get(getDistributionsPath) } returns om.writeValueAsBytes(distribution)
         every { client.get(listDistributionsPath) } returns om.writeValueAsBytes(listOf(distribution))
