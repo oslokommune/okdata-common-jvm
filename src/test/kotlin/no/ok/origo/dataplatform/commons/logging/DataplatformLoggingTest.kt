@@ -7,11 +7,11 @@ import io.kotlintest.matchers.collections.shouldContainAll
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.AnnotationSpec
+import java.io.ByteArrayOutputStream
 import uk.org.lidalia.slf4jtest.TestLogger
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
-import java.io.ByteArrayOutputStream
 
-internal class DataplatformLoggingTest(): AnnotationSpec() {
+internal class DataplatformLoggingTest() : AnnotationSpec() {
 
     val testContext = TestContext()
 
@@ -23,17 +23,15 @@ internal class DataplatformLoggingTest(): AnnotationSpec() {
     fun beforeEach() {
         logger = TestLoggerFactory.getTestLogger(testContext.awsRequestId)
         handler = DataplatformLoggingHandler()
-
     }
 
     @AfterEach
-    fun afterEach(){
+    fun afterEach() {
         logger.clearAll()
     }
 
-
     @Test
-    fun `normal methods should not log`(){
+    fun `normal methods should not log`() {
         handler.final(testContext)
         logger.loggingEvents.size shouldBe 0
     }
@@ -43,7 +41,7 @@ internal class DataplatformLoggingTest(): AnnotationSpec() {
         val out = ByteArrayOutputStream()
         handler.handleRequest("".byteInputStream(), out, testContext)
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String,String>> = om.readValue(logger.allLoggingEvents.single().message)
+        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
         statements shouldContain Pair("final", "hello again")
         statements shouldContain Pair("user", "ID-123")
     }
@@ -53,7 +51,7 @@ internal class DataplatformLoggingTest(): AnnotationSpec() {
         val out = ByteArrayOutputStream()
         handler.handleRequest("".byteInputStream(), out, testContext)
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String,String>> = om.readValue(logger.allLoggingEvents.single().message)
+        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
         statements.toMap().keys shouldContainAll listOf(
                 "awsRequestId",
                 "functionName",
@@ -71,12 +69,9 @@ internal class DataplatformLoggingTest(): AnnotationSpec() {
             throwsException.handleRequest("".byteInputStream(), out, testContext)
         }
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String,String>> = om.readValue(logger.allLoggingEvents.single().message)
+        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
         val expectedException = ExpectedException()
         statements shouldContain Pair("Exception", expectedException.message)
         statements shouldContain Pair("ExceptionName", "ExpectedException")
     }
 }
-
-
-

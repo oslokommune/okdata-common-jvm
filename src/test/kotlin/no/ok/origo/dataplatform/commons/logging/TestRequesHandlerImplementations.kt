@@ -1,7 +1,6 @@
 package no.ok.origo.dataplatform.commons.logging
 
 import com.amazonaws.services.lambda.runtime.Context
-import no.ok.origo.dataplatform.commons.pipeline.config.MissingStepConfig
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -11,7 +10,7 @@ internal class DataplatformLoggingHandler : LoggingRequestStreamHandler() {
         return "Hello World"
     }
 
-    fun final(context: Context){
+    fun final(context: Context) {
         context.logAdd("final" to "hello again")
         println("Hello again")
     }
@@ -23,14 +22,14 @@ internal class DataplatformLoggingHandler : LoggingRequestStreamHandler() {
     }
 }
 
-class ExpectedException: Exception("Expected exception in test")
+class ExpectedException : Exception("Expected exception in test")
 internal class DataplatformLoggingHandlerThrowsException : LoggingRequestStreamHandler() {
 
     fun somethingElse(): String {
         throw ExpectedException()
     }
 
-    fun final(context: Context){
+    fun final(context: Context) {
         context.logAdd("final" to "hello again")
         println("Hello again")
     }
@@ -41,4 +40,3 @@ internal class DataplatformLoggingHandlerThrowsException : LoggingRequestStreamH
         final(context)
     }
 }
-

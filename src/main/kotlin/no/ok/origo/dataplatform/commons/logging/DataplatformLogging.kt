@@ -3,12 +3,12 @@ package no.ok.origo.dataplatform.commons.logging
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.slf4j.LoggerFactory
-import org.slf4j.event.Level
 import java.io.InputStream
 import java.io.OutputStream
+import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 
-class DataplatformLogger(val name: String){
+class DataplatformLogger(val name: String) {
     companion object {
         private val loggers = mutableMapOf<String, DataplatformLogger>()
 
@@ -16,20 +16,20 @@ class DataplatformLogger(val name: String){
             loggers[logger.name] = logger
             return loggers[logger.name]!!
         }
-        fun removeLogger(name: String){
+        fun removeLogger(name: String) {
             loggers.remove(name)
         }
         fun getLogger(name: String): DataplatformLogger {
             return loggers[name] ?: addLogger(DataplatformLogger(name))
         }
     }
-    private val logStatements = mutableListOf<Pair<String,String>>()
+    private val logStatements = mutableListOf<Pair<String, String>>()
 
-    fun addLogStatements(vararg statements: Pair<String, String>){
+    fun addLogStatements(vararg statements: Pair<String, String>) {
         logStatements.addAll(statements)
     }
 
-    fun flushLog(level: Level){
+    fun flushLog(level: Level) {
         val logger = LoggerFactory.getLogger(name)
         val logContent = logStatements.toJson()
         when (level) {
@@ -92,5 +92,3 @@ abstract class LoggingRequestStreamHandler : RequestStreamHandler {
 
     abstract fun handleRequestWithLogging(input: InputStream, output: OutputStream, context: Context)
 }
-
-
