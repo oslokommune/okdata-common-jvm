@@ -7,16 +7,25 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpPost
+import no.ok.origo.dataplatform.commons.AuthorizedClient
 import no.ok.origo.dataplatform.commons.DataplatformClient
+import no.ok.origo.dataplatform.commons.auth.AuthToken
+import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
 import no.ok.origo.dataplatform.commons.ensureLast
 import no.ok.origo.dataplatform.commons.readValue
 import no.ok.origo.dataplatform.commons.withHeaders
 
-class MetadataClient(val api: String) : DataplatformClient() {
+class MetadataClient(
+    val api: String,
+    private val credentialsProvider: ClientCredentialsProvider
+) : AuthorizedClient, DataplatformClient() {
+
+    override fun getToken(): AuthToken = credentialsProvider.token
+
     override val om = jacksonObjectMapper()
-            .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
 
     fun datasetPath(datasetid: String? = null) =
             listOfNotNull("datasets", datasetid)
