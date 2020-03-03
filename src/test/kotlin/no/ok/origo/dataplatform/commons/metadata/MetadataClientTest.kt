@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import java.net.URL
@@ -23,7 +24,7 @@ class MetadataClientTest : AnnotationSpec() {
 
     @BeforeEach
     fun beforeEach() {
-        client = spyk(MetadataClient("http://example.com/"))
+        client = spyk(MetadataClient("http://example.com/", mockk()))
     }
 
     @AfterEach
