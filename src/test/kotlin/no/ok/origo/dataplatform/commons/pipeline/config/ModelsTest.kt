@@ -9,7 +9,7 @@ import io.kotlintest.specs.AnnotationSpec
 class ModelsTest : AnnotationSpec() {
 
     lateinit var config: Config
-    val raw_json = this::class.java.getResource("/input_event.json").readText()
+    val raw_json = this::class.java.getResource("/pipeline.config/input_event.json").readText()
     val om = jacksonObjectMapper()
 
     @Test
