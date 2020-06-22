@@ -1,12 +1,10 @@
 package no.ok.origo.dataplatform.commons.pipeline.config
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotThrowAny
-import io.kotlintest.should
 import io.kotlintest.matchers.beInstanceOf
+import io.kotlintest.should
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 
 class ModelsTest : AnnotationSpec() {
@@ -49,6 +47,5 @@ class ModelsTest : AnnotationSpec() {
         val config = om.readValue<Config>(rawJson)
 
         config.payload.stepData should beInstanceOf<JsonInputStepData>()
-
     }
 }
