@@ -35,6 +35,7 @@
       "s3_prefix": "%stage%/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
     },
     "step_data": {
+      "type": "s3input",
       "s3_input_prefixes": {
         "husholdninger-med-barn": "raw/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
       },
