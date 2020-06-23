@@ -1,0 +1,26 @@
+{
+  "execution_name": "uuid-uuid-uuid-uuid",
+  "task": "json_transformer",
+  "payload": {
+    "pipeline": {
+      "id": "husholdninger-med-barn",
+      "task_config": {
+        "typo_in_task_name": {
+          "jslt": "blablabla"
+        }
+      }
+    },
+    "output_dataset": {
+      "id": "husholdninger-med-barn",
+      "version": "1"
+    },
+    "step_data": {
+      "s3_input_prefixes": {
+        "husholdninger-med-barn": "raw/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
+      },
+      "input_events": [{"foo":  "bar"}],
+      "status": "OK",
+      "errors": []
+    }
+  }
+}

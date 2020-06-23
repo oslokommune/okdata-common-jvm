@@ -1,0 +1,22 @@
+{
+  "execution_name": "uuid-uuid-uuid-uuid",
+  "task": "json_transformer",
+  "payload": {
+    "pipeline": {
+      "id": "husholdninger-med-barn",
+      "task_config": {
+        "typo_in_task_name": {
+          "jslt": "blablabla"
+        }
+      }
+    },
+    "output_dataset": {
+      "id": "husholdninger-med-barn",
+      "version": "1"
+    },
+    "step_data": {
+      "status": "OK",
+      "errors": []
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package no.ok.origo.dataplatform.commons.pipeline.config
 
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotlintest.shouldBe
@@ -53,5 +54,19 @@ class ModelsTest : AnnotationSpec() {
 
         config.payload.stepData.s3InputPrefixes shouldBe null
         config.payload.stepData.inputEvents shouldNotBe null
+    }
+
+    @Test(expected = ValueInstantiationException::class)
+    fun `Test deserialization fails if both s3_input_prefixes and input_events are null`() {
+        val rawJson = this::class.java.getResource("/pipeline.config/no_step_data_input_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+    }
+
+    @Test(expected = ValueInstantiationException::class)
+    fun `Test deserialization fails if both s3_input_prefixes and input_events are not null`() {
+        val rawJson = this::class.java.getResource("/pipeline.config/json_input_and_s3_input_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
     }
 }

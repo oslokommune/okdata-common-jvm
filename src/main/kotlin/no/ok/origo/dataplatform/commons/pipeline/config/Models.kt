@@ -17,6 +17,15 @@ data class Config(
     fun getIntermediatePrefix(): String {
         return payload.outputDataset.s3Prefix?.replace("%stage%", "intermediate") + "$task/"
     }
+
+    init {
+        if(payload.stepData.s3InputPrefixes == null) {
+            require(payload.stepData.inputEvents != null)
+        }
+        else {
+            require(payload.stepData.inputEvents == null)
+        }
+    }
 }
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
