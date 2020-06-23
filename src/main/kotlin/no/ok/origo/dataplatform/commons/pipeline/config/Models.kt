@@ -1,7 +1,5 @@
 package no.ok.origo.dataplatform.commons.pipeline.config
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
@@ -43,32 +41,11 @@ data class OutputDataset(
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes(
-        JsonSubTypes.Type(value = S3InputStepData::class, name = "s3input"),
-        JsonSubTypes.Type(value = JsonInputStepData::class, name = "jsoninput")
-)
-interface StepData {
-    var status: String
+data class StepData(
+    var inputEvents: List<JsonNode>?,
+    var s3InputPrefixes: Map<String, String>?,
+    var status: String,
     var errors: List<String>
-}
-
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
-data class S3InputStepData(
-    var s3InputPrefixes: Map<String, String>,
-    override var status: String,
-    override var errors: List<String>
-) : StepData
-
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
-data class JsonInputStepData(
-    var inputEvents: List<JsonNode>,
-    override var status: String,
-    override var errors: List<String>
-) : StepData
+)
 
 class MissingStepConfig : Exception("Missing step config for current pipeline step")

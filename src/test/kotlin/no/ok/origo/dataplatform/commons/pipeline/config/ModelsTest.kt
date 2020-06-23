@@ -2,9 +2,8 @@ package no.ok.origo.dataplatform.commons.pipeline.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.should
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.AnnotationSpec
 
 class ModelsTest : AnnotationSpec() {
@@ -37,15 +36,22 @@ class ModelsTest : AnnotationSpec() {
     fun `Test deserialization s3 input StepConfig`() {
         val rawJson = this::class.java.getResource("/pipeline.config/s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
-        config.payload.stepData should beInstanceOf<S3InputStepData>()
+        config.payload.outputDataset.s3Prefix shouldNotBe null
+        config.payload.outputDataset.edition shouldNotBe null
+
+        config.payload.stepData.s3InputPrefixes shouldNotBe null
+        config.payload.stepData.inputEvents shouldBe null
     }
 
     @Test
     fun `Test deserialization json input StepConfig`() {
         val rawJson = this::class.java.getResource("/pipeline.config/json_input_config.json").readText()
-
         val config = om.readValue<Config>(rawJson)
 
-        config.payload.stepData should beInstanceOf<JsonInputStepData>()
+        config.payload.outputDataset.s3Prefix shouldBe null
+        config.payload.outputDataset.edition shouldBe null
+
+        config.payload.stepData.s3InputPrefixes shouldBe null
+        config.payload.stepData.inputEvents shouldNotBe null
     }
 }

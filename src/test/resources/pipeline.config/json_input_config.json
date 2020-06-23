@@ -15,7 +15,6 @@
       "version": "1"
     },
     "step_data": {
-      "type": "jsoninput",
       "input_events": [{"foo":  "bar"}],
       "status": "OK",
       "errors": []
