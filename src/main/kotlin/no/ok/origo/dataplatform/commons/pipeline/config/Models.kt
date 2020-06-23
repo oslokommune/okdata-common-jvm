@@ -19,10 +19,9 @@ data class Config(
     }
 
     init {
-        if(payload.stepData.s3InputPrefixes == null) {
+        if (payload.stepData.s3InputPrefixes == null) {
             require(payload.stepData.inputEvents != null)
-        }
-        else {
+        } else {
             require(payload.stepData.inputEvents == null)
         }
     }

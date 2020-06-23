@@ -60,13 +60,11 @@ class ModelsTest : AnnotationSpec() {
     fun `Test deserialization fails if both s3_input_prefixes and input_events are null`() {
         val rawJson = this::class.java.getResource("/pipeline.config/no_step_data_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
-
     }
 
     @Test(expected = ValueInstantiationException::class)
     fun `Test deserialization fails if both s3_input_prefixes and input_events are not null`() {
         val rawJson = this::class.java.getResource("/pipeline.config/json_input_and_s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
-
     }
 }
