@@ -22,6 +22,7 @@ data class Config(
         if (payload.stepData.s3InputPrefixes == null) {
             require(payload.stepData.inputEvents != null)
         } else {
+            require(payload.outputDataset.s3Prefix != null)
             require(payload.stepData.inputEvents == null)
         }
     }
