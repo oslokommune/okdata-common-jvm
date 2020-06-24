@@ -13,7 +13,7 @@ class ModelsTest : AnnotationSpec() {
 
     @Test
     fun `test getIntermediatePrefix`() {
-        val rawJson = this::class.java.getResource("/pipeline.config/s3_input_config.json").readText()
+        val rawJson = this::class.java.getResource("/pipeline/config/s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
         val json = om.readTree(rawJson)
         val s3_prefix = json.get("payload")
@@ -29,13 +29,13 @@ class ModelsTest : AnnotationSpec() {
 
     @Test(expected = MissingStepConfig::class)
     fun `get task info throws if missing`() {
-        val rawJsonMissingStepConfig = this::class.java.getResource("/pipeline.config/missing_step_config.json").readText()
+        val rawJsonMissingStepConfig = this::class.java.getResource("/pipeline/config/missing_step_config.json").readText()
         om.readValue<Config>(rawJsonMissingStepConfig).getTaskConfig()
     }
 
     @Test
     fun `Test deserialization s3 input StepConfig`() {
-        val rawJson = this::class.java.getResource("/pipeline.config/s3_input_config.json").readText()
+        val rawJson = this::class.java.getResource("/pipeline/config/s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
         config.payload.outputDataset.s3Prefix shouldNotBe null
         config.payload.outputDataset.edition shouldNotBe null
@@ -46,7 +46,7 @@ class ModelsTest : AnnotationSpec() {
 
     @Test
     fun `Test deserialization json input StepConfig`() {
-        val rawJson = this::class.java.getResource("/pipeline.config/json_input_config.json").readText()
+        val rawJson = this::class.java.getResource("/pipeline/config/json_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
 
         config.payload.outputDataset.s3Prefix shouldBe null
@@ -58,13 +58,13 @@ class ModelsTest : AnnotationSpec() {
 
     @Test(expected = ValueInstantiationException::class)
     fun `Test deserialization fails if both s3_input_prefixes and input_events are null`() {
-        val rawJson = this::class.java.getResource("/pipeline.config/no_step_data_input_config.json").readText()
+        val rawJson = this::class.java.getResource("/pipeline/config/no_step_data_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
     }
 
     @Test(expected = ValueInstantiationException::class)
     fun `Test deserialization fails if both s3_input_prefixes and input_events are not null`() {
-        val rawJson = this::class.java.getResource("/pipeline.config/json_input_and_s3_input_config.json").readText()
+        val rawJson = this::class.java.getResource("/pipeline/config/json_input_and_s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
     }
 }
