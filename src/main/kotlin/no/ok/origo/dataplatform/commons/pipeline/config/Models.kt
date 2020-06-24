@@ -15,7 +15,16 @@ data class Config(
     }
 
     fun getIntermediatePrefix(): String {
-        return payload.outputDataset.s3Prefix.replace("%stage%", "intermediate") + "$task/"
+        return payload.outputDataset.s3Prefix?.replace("%stage%", "intermediate") + "$task/"
+    }
+
+    init {
+        if (payload.stepData.s3InputPrefixes == null) {
+            require(payload.stepData.inputEvents != null)
+        } else {
+            require(payload.outputDataset.s3Prefix != null)
+            require(payload.stepData.inputEvents == null)
+        }
     }
 }
 
@@ -37,12 +46,13 @@ data class OutputDataset(
     val id: String,
     val version: String,
     val edition: String?,
-    val s3Prefix: String
+    val s3Prefix: String?
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class StepData(
-    var s3InputPrefixes: Map<String, String>,
+    var inputEvents: List<JsonNode>?,
+    var s3InputPrefixes: Map<String, String>?,
     var status: String,
     var errors: List<String>
 )
