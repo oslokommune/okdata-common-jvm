@@ -18,7 +18,7 @@
       "s3_input_prefixes": {
         "husholdninger-med-barn": "raw/green/husholdninger-med-barn/version=1/edition=20200120T133700/"
       },
-      "input_events": [{"foo":  "bar"}],
+      "input_events": ["{\"foo\":  \"bar\"}"],
       "status": "OK",
       "errors": []
     }

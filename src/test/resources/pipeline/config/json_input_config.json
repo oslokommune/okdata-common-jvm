@@ -15,7 +15,7 @@
       "version": "1"
     },
     "step_data": {
-      "input_events": [{"foo":  "bar"}],
+      "input_events": ["{\"foo\":  \"bar\"}"],
       "status": "OK",
       "errors": []
     }

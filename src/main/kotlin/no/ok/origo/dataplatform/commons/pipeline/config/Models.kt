@@ -50,7 +50,7 @@ data class OutputDataset(
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class StepData(
-    var inputEvents: List<JsonNode>?,
+    var inputEvents: List<String>?,
     var s3InputPrefixes: Map<String, String>?,
     var status: String,
     var errors: List<String>
