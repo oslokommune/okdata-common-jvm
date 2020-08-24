@@ -32,6 +32,11 @@ dependencies {
   testImplementation "com.github.tomakehurst:wiremock-jre8:2.25.1"
 }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 compileKotlin {
   kotlinOptions.jvmTarget = "1.8"
 }
