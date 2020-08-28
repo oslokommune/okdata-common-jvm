@@ -67,4 +67,13 @@ class ModelsTest : AnnotationSpec() {
         val rawJson = this::class.java.getResource("/pipeline/config/json_input_and_s3_input_config.json").readText()
         val config = om.readValue<Config>(rawJson)
     }
+
+    @Test
+    fun `Test serializing to JSON should not include null fields`() {
+        val eventData = StepData(inputEvents = listOf(), s3InputPrefixes = null, status = "OK", errors = listOf())
+        om.writeValueAsString(eventData) shouldBe """{"input_events":[],"status":"OK","errors":[]}"""
+
+        val s3Data = StepData(inputEvents = null, s3InputPrefixes = mapOf(), status = "OK", errors = listOf())
+        om.writeValueAsString(s3Data) shouldBe """{"s3_input_prefixes":{},"status":"OK","errors":[]}"""
+    }
 }

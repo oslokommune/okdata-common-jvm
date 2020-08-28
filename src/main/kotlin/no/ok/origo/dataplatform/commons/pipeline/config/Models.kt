@@ -1,5 +1,6 @@
 package no.ok.origo.dataplatform.commons.pipeline.config
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
@@ -42,6 +43,7 @@ data class Pipeline(
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class OutputDataset(
     val id: String,
     val version: String,
@@ -50,6 +52,7 @@ data class OutputDataset(
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class StepData(
     var inputEvents: List<JsonNode>?,
     var s3InputPrefixes: Map<String, String>?,
