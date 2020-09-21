@@ -1,10 +1,10 @@
-package no.ok.origo.dataplatform.commons.logging
+package no.ok.origo.dataplatform.commons.lambda
 
 import com.amazonaws.services.lambda.runtime.Context
 import java.io.InputStream
 import java.io.OutputStream
 
-internal class DataplatformLoggingHandler : LoggingRequestStreamHandler() {
+internal class DataplatformLoggingHandler : DataplatformRequestStreamHandler() {
 
     fun somethingElse(): String {
         return "Hello World"
@@ -23,7 +23,7 @@ internal class DataplatformLoggingHandler : LoggingRequestStreamHandler() {
 }
 
 class ExpectedException : Exception("Expected exception in test")
-internal class DataplatformLoggingHandlerThrowsException : LoggingRequestStreamHandler() {
+internal class DataplatformLoggingHandlerThrowsException : DataplatformRequestStreamHandler() {
 
     fun somethingElse(): String {
         throw ExpectedException()

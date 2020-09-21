@@ -1,4 +1,4 @@
-package no.ok.origo.dataplatform.commons.logging
+package no.ok.origo.dataplatform.commons.lambda
 
 import com.amazonaws.services.lambda.runtime.ClientContext
 import com.amazonaws.services.lambda.runtime.CognitoIdentity

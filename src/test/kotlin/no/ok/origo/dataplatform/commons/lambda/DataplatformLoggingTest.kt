@@ -1,4 +1,4 @@
-package no.ok.origo.dataplatform.commons.logging
+package no.ok.origo.dataplatform.commons.lambda
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -53,12 +53,14 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         logger.loggingEvents.size shouldBe 1
         val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
         statements.toMap().keys shouldContainAll listOf(
-                "awsRequestId",
-                "functionName",
-                "memoryLimitInMB",
-                "remainingTimeInMillis"
+                "aws_request_id",
+                "function_name",
+                "memory_limit_in_mb",
+                "remaining_time_in_millis",
+                "service_name"
         )
-        statements shouldContain Pair("functionName", testContext.functionName)
+        statements shouldContain Pair("function_name", testContext.functionName)
+        statements shouldContain Pair("service_name", System.getenv("SERVICE_NAME"))
     }
 
     @Test
@@ -71,7 +73,7 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         logger.loggingEvents.size shouldBe 1
         val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
         val expectedException = ExpectedException()
-        statements shouldContain Pair("Exception", expectedException.message)
-        statements shouldContain Pair("ExceptionName", "ExpectedException")
+        statements shouldContain Pair("exception", expectedException.message)
+        statements shouldContain Pair("exception_name", "ExpectedException")
     }
 }
