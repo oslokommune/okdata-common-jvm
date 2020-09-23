@@ -15,14 +15,14 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
 
     val testContext = TestContext()
 
-    lateinit var handler: DataplatformLoggingHandler
+    lateinit var handler: DataplatformHandler
     lateinit var logger: TestLogger
     val om = jacksonObjectMapper()
 
     @BeforeEach
     fun beforeEach() {
-        logger = TestLoggerFactory.getTestLogger(testContext.awsRequestId)
-        handler = DataplatformLoggingHandler()
+        logger = TestLoggerFactory.getTestLogger(DataplatformHandler::class.java)
+        handler = DataplatformHandler()
     }
 
     @AfterEach
@@ -65,8 +65,9 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
 
     @Test
     fun `log exceptions`() {
+        logger = TestLoggerFactory.getTestLogger(DataplatformHandlerThrowsException::class.java)
         val out = ByteArrayOutputStream()
-        val throwsException = DataplatformLoggingHandlerThrowsException()
+        val throwsException = DataplatformHandlerThrowsException()
         shouldThrow<ExpectedException> {
             throwsException.handleRequest("".byteInputStream(), out, testContext)
         }

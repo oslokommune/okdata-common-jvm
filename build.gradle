@@ -32,6 +32,8 @@ dependencies {
   testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
   testImplementation "com.github.tomakehurst:wiremock-jre8:2.25.1"
   testImplementation group: 'uk.org.lidalia', name: 'slf4j-test', version: '1.2.0'
+//  testImplementation "org.apache.avro:avro:1.9.2"
+//  testImplementation "org.spf4j:spf4j-slf4j-test-junit5:8.8.5"
 
 }
 
