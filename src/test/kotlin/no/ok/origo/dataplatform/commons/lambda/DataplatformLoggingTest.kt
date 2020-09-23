@@ -2,7 +2,6 @@ package no.ok.origo.dataplatform.commons.lambda
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import io.kotlintest.matchers.collections.shouldContain
 import io.kotlintest.matchers.collections.shouldContainAll
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
@@ -41,9 +40,9 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         val out = ByteArrayOutputStream()
         handler.handleRequest("".byteInputStream(), out, testContext)
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
-        statements shouldContain Pair("final", "hello again")
-        statements shouldContain Pair("user", "ID-123")
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
+        statements.get("final") shouldBe "hello again"
+        statements.get("user") shouldBe "ID-123"
     }
 
     @Test
@@ -51,16 +50,16 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         val out = ByteArrayOutputStream()
         handler.handleRequest("".byteInputStream(), out, testContext)
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
-        statements.toMap().keys shouldContainAll listOf(
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
+        statements.keys shouldContainAll listOf(
                 "aws_request_id",
                 "function_name",
                 "memory_limit_in_mb",
                 "remaining_time_in_millis",
                 "service_name"
         )
-        statements shouldContain Pair("function_name", testContext.functionName)
-        statements shouldContain Pair("service_name", System.getenv("SERVICE_NAME"))
+        statements.get("function_name") shouldBe testContext.functionName
+        statements.get("service_name") shouldBe System.getenv("SERVICE_NAME")
     }
 
     @Test
@@ -72,9 +71,9 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
             throwsException.handleRequest("".byteInputStream(), out, testContext)
         }
         logger.loggingEvents.size shouldBe 1
-        val statements: List<Pair<String, String>> = om.readValue(logger.allLoggingEvents.single().message)
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
         val expectedException = ExpectedException()
-        statements shouldContain Pair("exception", expectedException.message)
-        statements shouldContain Pair("exception_name", "ExpectedException")
+        statements.get("exception") shouldBe expectedException.message
+        statements.get("exception_name") shouldBe "ExpectedException"
     }
 }

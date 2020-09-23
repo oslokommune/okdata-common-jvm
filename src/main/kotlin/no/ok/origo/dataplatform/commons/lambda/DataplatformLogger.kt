@@ -1,16 +1,15 @@
 package no.ok.origo.dataplatform.commons.lambda
 
-
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.Logger
 import org.slf4j.event.Level
 
 class DataplatformLogger(val logger: Logger) {
 
-    private val logStatements = mutableListOf<LogEntry>()
+    private val logStatements = mutableMapOf<String, Any>()
 
     fun addLogStatements(vararg statements: LogEntry) {
-        logStatements.addAll(statements)
+        logStatements.putAll(statements)
     }
 
     fun flushLog(level: Level) {
@@ -22,11 +21,12 @@ class DataplatformLogger(val logger: Logger) {
             Level.DEBUG -> logger.debug(logContent)
             Level.TRACE -> logger.trace(logContent)
         }
+        logStatements.clear()
     }
 }
 
-typealias LogEntry = Pair<String, String>
+typealias LogEntry = Pair<String, Any>
 
-fun List<LogEntry>.toJson(): String {
+fun Map<String, Any>.toJson(): String {
     return jacksonObjectMapper().writeValueAsString(this)
 }
