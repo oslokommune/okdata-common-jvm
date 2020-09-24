@@ -25,15 +25,15 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
         )
     }
 
-    fun logAdd(key: String, value: String) {
+    fun logAdd(key: String, value: Any) {
         dataplatformLogger.logAdd(key to value)
     }
 
-    fun logAdd(statement: Pair<String, String>) {
+    fun logAdd(statement: LogEntry) {
         dataplatformLogger.logAdd(statement)
     }
 
-    fun logAdd(vararg statements: Pair<String, String>) {
+    fun logAdd(vararg statements: LogEntry) {
         dataplatformLogger.logAdd(*statements)
     }
 

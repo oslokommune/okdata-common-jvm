@@ -1,6 +1,7 @@
 package no.ok.origo.dataplatform.commons.lambda
 
 import com.amazonaws.services.lambda.runtime.Context
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -13,6 +14,13 @@ internal class DataplatformHandler : DataplatformLoggingHandler() {
     fun final(context: Context) {
         logAdd("final" to "hello again")
         println("Hello again")
+    }
+
+    fun logStuffAndHandleRequest(context: TestContext, stuffToLog: List<LogEntry>) {
+        val out = ByteArrayOutputStream()
+        stuffToLog.forEach {
+            logAdd(it) }
+        handleRequest("".byteInputStream(), out, context)
     }
 
     override fun handleRequestWithLogging(input: InputStream, output: OutputStream, context: Context) {

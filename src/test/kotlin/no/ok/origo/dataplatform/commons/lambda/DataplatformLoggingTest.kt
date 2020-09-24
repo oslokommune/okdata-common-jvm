@@ -3,6 +3,7 @@ package no.ok.origo.dataplatform.commons.lambda
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotlintest.matchers.collections.shouldContainAll
+import io.kotlintest.matchers.collections.shouldNotContain
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.AnnotationSpec
@@ -64,16 +65,20 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
 
     @Test
     fun `log content gets cleared for each call`() {
-        val out = ByteArrayOutputStream()
-        handler.handleRequest("".byteInputStream(), out, testContext)
+        val extraLogEntriesFirstRequest = listOf(Pair("kake", "vaffel"), Pair("length", 2))
+        handler.logStuffAndHandleRequest(testContext, extraLogEntriesFirstRequest)
         logger.loggingEvents.size shouldBe 1
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
         statements.get("aws_request_id") shouldBe testContext.awsRequestId
+        statements.get("kake") shouldBe "vaffel"
+        statements.get("length") shouldBe 2
 
         val secondTestContext = TestContext("aws-request-id-4321")
-        handler.handleRequest("".byteInputStream(), out, secondTestContext)
+        handler.logStuffAndHandleRequest(secondTestContext, emptyList())
         val secondStatements: Map<String, Any> = om.readValue(logger.allLoggingEvents.get(1).message)
         secondStatements.get("aws_request_id") shouldBe secondTestContext.awsRequestId
+        secondStatements.keys shouldNotContain "kake"
+        secondStatements.keys shouldNotContain "length"
     }
 
     @Test
