@@ -14,11 +14,6 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
     lateinit var mockClient: KeycloakClient
     val om = jacksonObjectMapper()
 
-    @BeforeAll
-    fun beforeAll() {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG")
-    }
-
     @BeforeEach
     fun beforeEach() {
         val wellKnown = this::class.java.getResource("/keycloak/well-known.json").readText()
