@@ -6,14 +6,14 @@ import org.slf4j.event.Level
 
 class DataplatformLogger(val logger: Logger) {
 
-    private val logStatements = mutableMapOf<String, Any>()
+    private val logContent = mutableMapOf<String, Any>()
 
-    fun addLogStatements(vararg statements: LogEntry) {
-        logStatements.putAll(statements)
+    fun logAdd(vararg statements: LogEntry) {
+        logContent.putAll(statements)
     }
 
     fun flushLog(level: Level) {
-        val logContent = logStatements.toJson()
+        val logContent = logContent.toJson()
         when (level) {
             Level.INFO -> logger.info(logContent)
             Level.ERROR -> logger.error(logContent)
@@ -21,7 +21,7 @@ class DataplatformLogger(val logger: Logger) {
             Level.DEBUG -> logger.debug(logContent)
             Level.TRACE -> logger.trace(logContent)
         }
-        logStatements.clear()
+        this.logContent.clear()
     }
 }
 

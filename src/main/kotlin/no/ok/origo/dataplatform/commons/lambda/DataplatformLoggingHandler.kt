@@ -16,25 +16,25 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
     }
 
     private fun logRequestContext(context: Context) {
-        dataplatformLogger.addLogStatements(
+        dataplatformLogger.logAdd(
                 "aws_request_id" to context.awsRequestId,
                 "function_name" to context.functionName,
-                "memory_limit_in_mb" to context.memoryLimitInMB.toString(),
-                "remaining_time_in_millis" to context.remainingTimeInMillis.toString(),
+                "memory_limit_in_mb" to context.memoryLimitInMB,
+                "remaining_time_in_millis" to context.remainingTimeInMillis,
                 "service_name" to System.getenv("SERVICE_NAME")
         )
     }
 
     fun logAdd(key: String, value: String) {
-        dataplatformLogger.addLogStatements(key to value)
+        dataplatformLogger.logAdd(key to value)
     }
 
     fun logAdd(statement: Pair<String, String>) {
-        dataplatformLogger.addLogStatements(statement)
+        dataplatformLogger.logAdd(statement)
     }
 
     fun logAdd(vararg statements: Pair<String, String>) {
-        dataplatformLogger.addLogStatements(*statements)
+        dataplatformLogger.logAdd(*statements)
     }
 
     override fun handleRequest(input: InputStream, output: OutputStream, context: Context) {

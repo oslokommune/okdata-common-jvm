@@ -6,8 +6,11 @@ import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.LambdaLogger
 import kotlin.random.Random
 
-class TestContext : Context {
-    override fun getAwsRequestId() = "aws-request-id-1234"
+class TestContext(val requestId: String) : Context {
+
+    override fun getAwsRequestId(): String {
+        return requestId
+    }
 
     override fun getLogStreamName(): String {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.

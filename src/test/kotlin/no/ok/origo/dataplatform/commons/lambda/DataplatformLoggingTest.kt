@@ -12,7 +12,7 @@ import uk.org.lidalia.slf4jtest.TestLoggerFactory
 
 internal class DataplatformLoggingTest() : AnnotationSpec() {
 
-    val testContext = TestContext()
+    val testContext = TestContext("aws-request-id-1234")
 
     lateinit var handler: DataplatformHandler
     lateinit var logger: TestLogger
@@ -60,6 +60,20 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         )
         statements.get("function_name") shouldBe testContext.functionName
         statements.get("service_name") shouldBe System.getenv("SERVICE_NAME")
+    }
+
+    @Test
+    fun `log content gets cleared for each call`() {
+        val out = ByteArrayOutputStream()
+        handler.handleRequest("".byteInputStream(), out, testContext)
+        logger.loggingEvents.size shouldBe 1
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
+        statements.get("aws_request_id") shouldBe testContext.awsRequestId
+
+        val secondTestContext = TestContext("aws-request-id-4321")
+        handler.handleRequest("".byteInputStream(), out, secondTestContext)
+        val secondStatements: Map<String, Any> = om.readValue(logger.allLoggingEvents.get(1).message)
+        secondStatements.get("aws_request_id") shouldBe secondTestContext.awsRequestId
     }
 
     @Test
