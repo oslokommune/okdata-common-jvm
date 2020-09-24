@@ -1,4 +1,8 @@
-## 0.0.16
+## 0.0.18
+
+* Upgrade to Gradle 6.6.1
+
+## 0.0.16 (and 0.0.17)
     
 * Add abstract class for common logging in lambda handlers
 
