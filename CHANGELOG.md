@@ -1,3 +1,7 @@
+## 0.0.16
+    
+* Add abstract class for common logging in lambda handlers
+
 ## 0.0.15
 
 * Exclude null fields in pipeline model from JSON serialization
