@@ -11,6 +11,6 @@ git pull
 ./gradlew clean build
 ./gradlew publish
 git add .
-git commit -m "New release <new-version>"
-git push
+git tag -a v<new-version> -m "Release <new-version>"
+git push --follow-tags
 ```
