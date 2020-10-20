@@ -1,9 +1,10 @@
 ## 0.0.18
 
 * Upgrade to Gradle 6.6.1
+* The `PipelineInstance` data class now takes `pipelineProcessorId` as an optional parameter
 
 ## 0.0.16 (and 0.0.17)
-    
+
 * Add abstract class for common logging in lambda handlers
 
 ## 0.0.15
