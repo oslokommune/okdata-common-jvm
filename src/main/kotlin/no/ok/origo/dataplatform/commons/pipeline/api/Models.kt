@@ -22,7 +22,11 @@ data class PipelineInput(
 data class PipelineInstance(
     val id: String,
     val datasetUri: String,
-    val pipelineArn: String,
+    // TODO: Remove this once all users have been updated to use
+    // `pipelineProcessorId` instead.
+    val pipelineArn: String = "",
+    // TODO: Make this required once `pipelineArn` has been phased out.
+    var pipelineProcessorId: String = "",
     val schemaId: String?,
     val transformation: JsonNode?,
     val taskConfig: JsonNode? = null,
