@@ -35,9 +35,9 @@ abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
         dataplatformLogger.logAdd(*statements)
     }
 
-    override fun handleRequest(inputEvent: I, context: Context): O {
+    override fun handleRequest(input: I, context: Context): O {
         logRequestContext(context)
-        runCatching { handleRequestWithLogging(inputEvent, context) }.fold(
+        runCatching { handleRequestWithLogging(input, context) }.fold(
                 onFailure = {
                     logAdd("exception" to it.message.toString())
                     logAdd("exception_name" to (it::class.java::getSimpleName)())
