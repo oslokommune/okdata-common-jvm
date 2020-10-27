@@ -1,3 +1,15 @@
+## ?.?.?
+
+* The `PipelineInstance` data class now longer accepts the `schemaId` and `useLatestEdition` parameters
+
+## 0.0.20
+
+* Made `DataplatformLogger` instance public
+
+## 0.0.19
+
+* Added logging for `lambda.runtime.RequestHandler`
+
 ## 0.0.18
 
 * Upgrade to Gradle 6.6.1
