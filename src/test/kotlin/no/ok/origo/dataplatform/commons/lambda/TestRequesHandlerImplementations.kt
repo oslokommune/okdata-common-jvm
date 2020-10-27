@@ -30,6 +30,31 @@ internal class DataplatformHandler : DataplatformLoggingHandler() {
     }
 }
 
+internal class DataplatformRequestHandler : DataplatformLoggingRequestHandler<LambdaEvent, Unit>() {
+
+    fun somethingElse(): String {
+        return "Hello World"
+    }
+
+    fun final(context: Context) {
+        logAdd("final" to "hello again")
+        println("Hello again")
+    }
+
+    fun logStuffAndHandleRequest(context: TestContext, stuffToLog: List<LogEntry>) {
+        val out = ByteArrayOutputStream()
+        stuffToLog.forEach {
+            logAdd(it) }
+        handleRequest(LambdaEvent("foo", "bar"), context)
+    }
+
+    override fun handleRequestWithLogging(inputEvent: LambdaEvent, context: Context) {
+        logAdd("user", "ID-123")
+        val result = somethingElse()
+        final(context)
+    }
+}
+
 class ExpectedException : Exception("Expected exception in test")
 internal class DataplatformHandlerThrowsException : DataplatformLoggingHandler() {
 
@@ -48,3 +73,8 @@ internal class DataplatformHandlerThrowsException : DataplatformLoggingHandler()
         final(context)
     }
 }
+
+data class LambdaEvent(
+    val foo: String,
+    val bar: String
+)
