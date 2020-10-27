@@ -9,7 +9,7 @@ import org.slf4j.event.Level
 
 abstract class DataplatformLoggingHandler : RequestStreamHandler {
 
-    private var dataplatformLogger = DataplatformLogger(LoggerFactory.getLogger(this::class.java))
+    var dataplatformLogger = DataplatformLogger(LoggerFactory.getLogger(this::class.java))
 
     private fun flushLog(level: Level = Level.INFO) {
         dataplatformLogger.flushLog(level)
