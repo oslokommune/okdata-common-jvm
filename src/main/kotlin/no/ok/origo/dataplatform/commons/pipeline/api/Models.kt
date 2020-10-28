@@ -27,7 +27,6 @@ data class PipelineInstance(
     val pipelineArn: String = "",
     // TODO: Make this required once `pipelineArn` has been phased out.
     var pipelineProcessorId: String = "",
-    val transformation: JsonNode?,
     val taskConfig: JsonNode? = null
 ) {
     fun dataset() = datasetUri.split("/")[1]

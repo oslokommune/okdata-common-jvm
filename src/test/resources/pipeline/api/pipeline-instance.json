@@ -2,7 +2,6 @@
   "id": "pipeline-instance-id",
   "datasetUri": "output/output-dataset-id/1",
   "pipelineArn": "arn:aws:states:eu-west-1:123456789102:stateMachine:mock-step-function",
-  "transformation": null,
   "taskConfig": {
     "excel_to_csv": {
       "pivot_config": {

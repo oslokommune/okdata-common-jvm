@@ -1,14 +1,15 @@
 ## ?.?.?
 
-* The `PipelineInstance` data class now longer accepts the `schemaId` and `useLatestEdition` parameters
+* The `PipelineInstance` data class now longer accepts the `schemaId`,
+  `transformation`, and `useLatestEdition` parameters.
 
 ## 0.0.20
 
-* Made `DataplatformLogger` instance public
+* Made `DataplatformLogger` instance public.
 
 ## 0.0.19
 
-* Added logging for `lambda.runtime.RequestHandler`
+* Added logging for `lambda.runtime.RequestHandler`.
 
 ## 0.0.18
 
