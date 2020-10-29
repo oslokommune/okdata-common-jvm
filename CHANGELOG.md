@@ -1,4 +1,4 @@
-## ?.?.?
+## 0.0.21
 
 * The `PipelineInstance` data class now longer accepts the `schemaId`,
   `transformation`, and `useLatestEdition` parameters.
