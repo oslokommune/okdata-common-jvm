@@ -1,3 +1,8 @@
+## 0.0.22
+
+* Keeps the `PipelineInstance` data class backwards compatible with the previous
+  change.
+
 ## 0.0.21
 
 * The `PipelineInstance` data class now longer accepts the `schemaId`,
