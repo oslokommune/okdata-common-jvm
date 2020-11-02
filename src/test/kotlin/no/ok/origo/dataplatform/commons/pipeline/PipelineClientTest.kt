@@ -42,6 +42,11 @@ internal class PipelineClientTest : AnnotationSpec() {
     }
 
     @Test
+    fun pipelineInstanceUnknownProperties() {
+        TestUtils.readJson<PipelineInstance>("pipeline/api/pipeline-instance-obsolete-properties.json")
+    }
+
+    @Test
     fun pipelineInputPath() {
         client.pipelineInputPath("pipeline-instance-id") shouldBe "pipeline-instances/pipeline-instance-id/inputs"
     }
