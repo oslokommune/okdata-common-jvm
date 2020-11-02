@@ -1,5 +1,6 @@
 package no.ok.origo.dataplatform.commons.pipeline.api
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 
@@ -19,6 +20,7 @@ data class PipelineInput(
     fun version() = datasetUri.split("/")[2]
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class PipelineInstance(
     val id: String,
     val datasetUri: String,

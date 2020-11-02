@@ -1,0 +1,8 @@
+{
+  "id": "pipeline-instance-id",
+  "datasetUri": "output/output-dataset-id/1",
+  "schemaId": "",
+  "pipelineArn": "arn:aws:states:eu-west-1:123456789102:stateMachine:mock-step-function",
+  "taskConfig": {},
+  "useLatestEdition": true
+}
