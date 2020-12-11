@@ -1,0 +1,30 @@
+{
+  "execution_name": "test_execution",
+  "task": "kinesis_writer",
+  "payload": {
+    "pipeline": {
+      "id": "some-id",
+      "task_config": {
+        "kinesis_writer": {
+          "some_config": "some other value"
+        }
+      }
+    },
+    "output_dataset": {
+      "id": "some-id",
+      "version": "1"
+    },
+    "step_data": {
+      "input_events": [
+        {
+          "foo": "bar"
+        }
+      ],
+      "status": "PENDING",
+      "errors": []
+    }
+  },
+  "task_config": {
+    "some_config": "some value"
+  }
+}

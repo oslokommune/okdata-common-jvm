@@ -38,7 +38,6 @@ internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
 
     @Test
     fun `log only when handleRequest completes`() {
-        val out = ByteArrayOutputStream()
         handler.handleRequest(LambdaEvent("foo", "bar"), testContext)
         logger.loggingEvents.size shouldBe 1
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
@@ -48,7 +47,6 @@ internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
 
     @Test
     fun `add context information to log statement`() {
-        val out = ByteArrayOutputStream()
         handler.handleRequest(LambdaEvent("foo", "bar"), testContext)
         logger.loggingEvents.size shouldBe 1
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
