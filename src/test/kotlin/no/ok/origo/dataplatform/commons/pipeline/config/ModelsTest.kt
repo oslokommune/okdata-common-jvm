@@ -84,7 +84,8 @@ class ModelsTest : AnnotationSpec() {
         val rawJson = this::class.java.getResource("/pipeline/config/event_overriding_default_task_config.json").readText()
         val config = om.readValue<Config>(rawJson)
 
-        config.getTaskConfig().get("some_config").textValue() shouldBe "some other value"
+        config.getTaskConfig().get("some_config_1").textValue() shouldBe "some default value"
+        config.getTaskConfig().get("some_config_2").textValue() shouldBe "some overriding value"
     }
 
     @Test

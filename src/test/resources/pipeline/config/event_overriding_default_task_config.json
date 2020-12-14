@@ -6,7 +6,7 @@
       "id": "some-id",
       "task_config": {
         "kinesis_writer": {
-          "some_config": "some other value"
+          "some_config_2": "some overriding value"
         }
       }
     },
@@ -25,6 +25,7 @@
     }
   },
   "task_config": {
-    "some_config": "some value"
+    "some_config_1": "some default value",
+    "some_config_2": "some default value"
   }
 }
