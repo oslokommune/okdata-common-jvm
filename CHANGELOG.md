@@ -1,3 +1,7 @@
+## 0.0.23
+
+* Add support for default and missing task configuration values in pipelines.
+
 ## 0.0.22
 
 * Keeps the `PipelineInstance` data class backwards compatible with the previous
