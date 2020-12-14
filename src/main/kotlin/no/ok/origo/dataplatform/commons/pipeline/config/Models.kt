@@ -4,15 +4,30 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
+import com.fasterxml.jackson.databind.node.NullNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class Config(
     val executionName: String,
     val task: String,
-    val payload: Payload
+    val payload: Payload,
+    val taskConfig: ObjectNode = JsonNodeFactory.instance.objectNode()
 ) {
     fun getTaskConfig(): JsonNode {
-        return this.payload.pipeline.taskConfig.get(this.task) ?: throw MissingStepConfig()
+        // Get global task config from pipeline template
+        val taskConfig = this.taskConfig
+
+        val pipelineTaskConfigs = this.payload.pipeline.taskConfig
+        val pipelineTaskConfig: JsonNode? = pipelineTaskConfigs.get(this.task)
+
+        if (pipelineTaskConfig == null || pipelineTaskConfig is NullNode) {
+            return taskConfig
+        }
+
+        // Update with specific config from pipeline instance
+        return taskConfig.setAll(pipelineTaskConfig as ObjectNode)
     }
 
     fun getIntermediatePrefix(): String {
@@ -39,7 +54,7 @@ data class Payload(
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class Pipeline(
     val id: String,
-    val taskConfig: JsonNode
+    val taskConfig: JsonNode = JsonNodeFactory.instance.objectNode()
 )
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
@@ -59,5 +74,3 @@ data class StepData(
     var status: String,
     var errors: List<String>
 )
-
-class MissingStepConfig : Exception("Missing step config for current pipeline step")

@@ -27,12 +27,6 @@ class ModelsTest : AnnotationSpec() {
         s3_prefix shouldBe config.getIntermediatePrefix()
     }
 
-    @Test(expected = MissingStepConfig::class)
-    fun `get task info throws if missing`() {
-        val rawJsonMissingStepConfig = this::class.java.getResource("/pipeline/config/missing_step_config.json").readText()
-        om.readValue<Config>(rawJsonMissingStepConfig).getTaskConfig()
-    }
-
     @Test
     fun `Test deserialization s3 input StepConfig`() {
         val rawJson = this::class.java.getResource("/pipeline/config/s3_input_config.json").readText()
@@ -59,13 +53,13 @@ class ModelsTest : AnnotationSpec() {
     @Test(expected = ValueInstantiationException::class)
     fun `Test deserialization fails if both s3_input_prefixes and input_events are null`() {
         val rawJson = this::class.java.getResource("/pipeline/config/no_step_data_input_config.json").readText()
-        val config = om.readValue<Config>(rawJson)
+        om.readValue<Config>(rawJson)
     }
 
     @Test(expected = ValueInstantiationException::class)
     fun `Test deserialization fails if both s3_input_prefixes and input_events are not null`() {
         val rawJson = this::class.java.getResource("/pipeline/config/json_input_and_s3_input_config.json").readText()
-        val config = om.readValue<Config>(rawJson)
+        om.readValue<Config>(rawJson)
     }
 
     @Test
@@ -75,5 +69,46 @@ class ModelsTest : AnnotationSpec() {
 
         val s3Data = StepData(inputEvents = null, s3InputPrefixes = mapOf(), status = "OK", errors = listOf())
         om.writeValueAsString(s3Data) shouldBe """{"s3_input_prefixes":{},"status":"OK","errors":[]}"""
+    }
+
+    @Test
+    fun `Test event with default task config`() {
+        val rawJson = this::class.java.getResource("/pipeline/config/event_with_default_task_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+        config.getTaskConfig().get("some_config").textValue() shouldBe "some value"
+    }
+
+    @Test
+    fun `Test override default task config`() {
+        val rawJson = this::class.java.getResource("/pipeline/config/event_overriding_default_task_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+        config.getTaskConfig().get("some_config_1").textValue() shouldBe "some default value"
+        config.getTaskConfig().get("some_config_2").textValue() shouldBe "some overriding value"
+    }
+
+    @Test
+    fun `Test handle null task config`() {
+        val rawJson = this::class.java.getResource("/pipeline/config/event_with_null_task_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+        config.getTaskConfig().get("some_config").textValue() shouldBe "some value"
+    }
+
+    @Test
+    fun `Test handle missing task config`() {
+        val rawJson = this::class.java.getResource("/pipeline/config/event_with_missing_task_config.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+        config.getTaskConfig().get("some_config").textValue() shouldBe "some value"
+    }
+
+    @Test
+    fun `Test handle null task config child`() {
+        val rawJson = this::class.java.getResource("/pipeline/config/event_with_null_task_config_child.json").readText()
+        val config = om.readValue<Config>(rawJson)
+
+        config.getTaskConfig().get("some_config").textValue() shouldBe "some value"
     }
 }

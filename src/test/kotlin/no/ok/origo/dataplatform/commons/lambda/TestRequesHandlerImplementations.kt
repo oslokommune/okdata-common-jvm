@@ -11,7 +11,7 @@ internal class DataplatformHandler : DataplatformLoggingHandler() {
         return "Hello World"
     }
 
-    fun final(context: Context) {
+    fun final(@Suppress("UNUSED_PARAMETER") context: Context) {
         logAdd("final" to "hello again")
         println("Hello again")
     }
@@ -25,7 +25,7 @@ internal class DataplatformHandler : DataplatformLoggingHandler() {
 
     override fun handleRequestWithLogging(input: InputStream, output: OutputStream, context: Context) {
         logAdd("user", "ID-123")
-        val result = somethingElse()
+        somethingElse()
         final(context)
     }
 }
@@ -36,13 +36,12 @@ internal class DataplatformRequestHandler : DataplatformLoggingRequestHandler<La
         return "Hello World"
     }
 
-    fun final(context: Context) {
+    fun final(@Suppress("UNUSED_PARAMETER") context: Context) {
         logAdd("final" to "hello again")
         println("Hello again")
     }
 
     fun logStuffAndHandleRequest(context: TestContext, stuffToLog: List<LogEntry>) {
-        val out = ByteArrayOutputStream()
         stuffToLog.forEach {
             logAdd(it) }
         handleRequest(LambdaEvent("foo", "bar"), context)
@@ -50,7 +49,7 @@ internal class DataplatformRequestHandler : DataplatformLoggingRequestHandler<La
 
     override fun handleRequestWithLogging(inputEvent: LambdaEvent, context: Context) {
         logAdd("user", "ID-123")
-        val result = somethingElse()
+        somethingElse()
         final(context)
     }
 }
@@ -62,14 +61,14 @@ internal class DataplatformHandlerThrowsException : DataplatformLoggingHandler()
         throw ExpectedException()
     }
 
-    fun final(context: Context) {
+    fun final(@Suppress("UNUSED_PARAMETER") context: Context) {
         logAdd("final" to "hello again")
         println("Hello again")
     }
 
     override fun handleRequestWithLogging(input: InputStream, output: OutputStream, context: Context) {
         logAdd("user", "ID-123")
-        val result = somethingElse()
+        somethingElse()
         final(context)
     }
 }
