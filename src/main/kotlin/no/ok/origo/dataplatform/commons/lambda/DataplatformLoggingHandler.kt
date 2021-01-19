@@ -6,6 +6,8 @@ import java.io.InputStream
 import java.io.OutputStream
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
+import java.io.PrintWriter
+import java.io.StringWriter
 
 abstract class DataplatformLoggingHandler : RequestStreamHandler {
 
@@ -41,6 +43,9 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
         logRequestContext(context)
         runCatching { handleRequestWithLogging(input, output, context) }.fold(
                 onFailure = {
+                    val sw = StringWriter()
+                    it.printStackTrace(PrintWriter(sw))
+                    logAdd("stacktrace" to sw.toString())
                     logAdd("exception" to it.message.toString())
                     logAdd("exception_name" to (it::class.java::getSimpleName)())
                     flushLog(level = Level.ERROR)

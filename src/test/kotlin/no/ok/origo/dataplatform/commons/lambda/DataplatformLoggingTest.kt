@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotlintest.matchers.collections.shouldContainAll
 import io.kotlintest.matchers.collections.shouldNotContain
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.AnnotationSpec
 import java.io.ByteArrayOutputStream
@@ -94,5 +95,7 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         val expectedException = ExpectedException()
         statements.get("exception") shouldBe expectedException.message
         statements.get("exception_name") shouldBe "ExpectedException"
+        val stacktrace = statements.get("stacktrace") as String
+        stacktrace.startsWith("no.ok.origo.dataplatform.commons.lambda.ExpectedException: Expected exception in test") shouldBe true
     }
 }
