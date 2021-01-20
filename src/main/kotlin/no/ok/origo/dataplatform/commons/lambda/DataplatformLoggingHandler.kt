@@ -4,10 +4,10 @@ import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler
 import java.io.InputStream
 import java.io.OutputStream
-import org.slf4j.LoggerFactory
-import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
+import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 
 abstract class DataplatformLoggingHandler : RequestStreamHandler {
 
