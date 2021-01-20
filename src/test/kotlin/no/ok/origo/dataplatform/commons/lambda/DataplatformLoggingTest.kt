@@ -94,5 +94,7 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         val expectedException = ExpectedException()
         statements.get("exception") shouldBe expectedException.message
         statements.get("exception_name") shouldBe "ExpectedException"
+        val stacktrace = statements.get("stacktrace") as String
+        stacktrace.startsWith("no.ok.origo.dataplatform.commons.lambda.ExpectedException: Expected exception in test") shouldBe true
     }
 }
