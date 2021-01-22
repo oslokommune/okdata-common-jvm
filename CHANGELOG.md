@@ -1,3 +1,11 @@
+## 0.0.25
+
+* The dataset `Dataset.confidentiality` field is now optional.
+
+## 0.0.24
+
+* Log stacktrace when exceptions occur.
+
 ## 0.0.23
 
 * Add support for default and missing task configuration values in pipelines.
