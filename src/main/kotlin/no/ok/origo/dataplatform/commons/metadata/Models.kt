@@ -7,7 +7,7 @@ data class Dataset(
     @JsonProperty("processing_stage") val processingStage: String?,
     @JsonProperty("parent_id") val parentId: String?,
     val publisher: String,
-    val confidentiality: String,
+    val confidentiality: String?,
     val frequency: String?,
     val keywords: List<String>?,
     val objective: String?,
