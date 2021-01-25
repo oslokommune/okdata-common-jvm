@@ -30,11 +30,6 @@ class EventCollectorClient(
         val request = Fuel.post(eventCollectorBaseUrl.ensureLast('/') + "events/$datasetId/$version")
                 .body(eventBodyObjectMapper.writeValueAsString(jsonEventList), charset = UTF_8)
 
-        try {
-            return performRequest(request).readValue(om)
-        } catch (fe: FuelError) {
-            val responseBody = om.readValue(fe.response.data, EventCollectorResponse::class.java)
-            throw HttpException(fe.response.statusCode, responseBody.message)
-        }
+        return performRequest(request).readValue(om)
     }
 }

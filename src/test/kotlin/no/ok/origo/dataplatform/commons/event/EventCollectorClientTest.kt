@@ -1,7 +1,6 @@
 package no.ok.origo.dataplatform.commons.event
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.kittinunf.fuel.core.HttpException
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
@@ -14,6 +13,7 @@ import io.kotlintest.specs.AnnotationSpec
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import no.ok.origo.dataplatform.commons.NotFoundError
 import no.ok.origo.dataplatform.commons.TestUtils
 import no.ok.origo.dataplatform.commons.auth.AuthToken
 import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
@@ -80,18 +80,18 @@ class EventCollectorClientTest : AnnotationSpec() {
         val datasetId = "test-dataset"
         val version = "test-version"
         val route = "/events/$datasetId/$version"
+        val responseBody = """{"message": "Custom msg"}"""
         wireMockServer.stubFor(post(urlEqualTo(route))
                 .willReturn(aResponse()
                         .withStatus(404)
-                        .withBody("""{"message": "Custom Not Exist Message"}""")))
+                        .withBody(responseBody)))
 
         val testObject = TestEvent("foo", "bar")
         val li = listOf(testObject, testObject)
 
-        val exeption = shouldThrow<HttpException> {
+        val exeption = shouldThrow<NotFoundError> {
             eventCollectorClient.postEvents(li, datasetId, version) }
-
-        exeption.localizedMessage shouldBe "HTTP Exception 404 Custom Not Exist Message"
+        exeption.localizedMessage shouldBe "url: http://localhost:${wireMockServer.port()}/events/$datasetId/$version\nresponse body: $responseBody"
     }
 
     @Test
