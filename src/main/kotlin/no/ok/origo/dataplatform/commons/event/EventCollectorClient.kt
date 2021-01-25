@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.HttpException
 import kotlin.text.Charsets.UTF_8
 import no.ok.origo.dataplatform.commons.AuthorizedClient
 import no.ok.origo.dataplatform.commons.DataplatformClient

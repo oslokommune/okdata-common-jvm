@@ -33,7 +33,7 @@ abstract class DataplatformClient {
                         )
                 val exception = result.getException()
                 val statusCode = exception.response.statusCode
-                val responseBody = response.body().asString(contentType="application/json")
+                val responseBody = response.body().asString(contentType = "application/json")
                 val customErrorMsg = "url: ${preparedRequest.url}\nresponse body: $responseBody"
                 when (statusCode) {
                     400 -> throw BadRequestError(customErrorMsg)
