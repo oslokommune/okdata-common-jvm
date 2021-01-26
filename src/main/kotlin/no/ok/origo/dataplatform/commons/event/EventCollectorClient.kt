@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.HttpException
 import kotlin.text.Charsets.UTF_8
 import no.ok.origo.dataplatform.commons.AuthorizedClient
 import no.ok.origo.dataplatform.commons.DataplatformClient
@@ -30,11 +28,6 @@ class EventCollectorClient(
         val request = Fuel.post(eventCollectorBaseUrl.ensureLast('/') + "events/$datasetId/$version")
                 .body(eventBodyObjectMapper.writeValueAsString(jsonEventList), charset = UTF_8)
 
-        try {
-            return performRequest(request).readValue(om)
-        } catch (fe: FuelError) {
-            val responseBody = om.readValue(fe.response.data, EventCollectorResponse::class.java)
-            throw HttpException(fe.response.statusCode, responseBody.message)
-        }
+        return performRequest(request).readValue(om)
     }
 }

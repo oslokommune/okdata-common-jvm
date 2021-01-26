@@ -31,7 +31,16 @@ abstract class DataplatformClient {
                         "status: ${response.statusCode} ",
                         "body: ${response.responseMessage} "
                         )
-                throw result.getException()
+                val exception = result.getException()
+                val statusCode = exception.response.statusCode
+                val responseBody = response.body().asString(contentType = "application/json")
+                val customErrorMsg = "url: ${preparedRequest.url}\nresponse body: $responseBody"
+                when (statusCode) {
+                    400 -> throw BadRequestError(customErrorMsg)
+                    404 -> throw NotFoundError(customErrorMsg)
+                    500 -> throw ServerError(customErrorMsg)
+                    else -> throw exception
+                }
             }
         }
     }
@@ -44,3 +53,9 @@ abstract class DataplatformClient {
         return request
     }
 }
+
+class NotFoundError(message: String) : Exception(message)
+
+class ServerError(message: String) : Exception(message)
+
+class BadRequestError(message: String) : Exception(message)
