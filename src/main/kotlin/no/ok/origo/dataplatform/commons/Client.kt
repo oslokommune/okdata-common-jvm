@@ -1,9 +1,11 @@
 package no.ok.origo.dataplatform.commons
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.core.Headers
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.result.Result
+import java.net.URL
 import no.ok.origo.dataplatform.commons.auth.AuthToken
 
 interface AuthorizedClient {
@@ -33,12 +35,24 @@ abstract class DataplatformClient {
                         )
                 val exception = result.getException()
                 val statusCode = exception.response.statusCode
-                val responseBody = response.body().asString(contentType = "application/json")
-                val customErrorMsg = "url: ${preparedRequest.url}\nresponse body: $responseBody"
+                val rawResponseBody = response.body().asString(contentType = "application/json")
+                val url = preparedRequest.url
                 when (statusCode) {
-                    400 -> throw BadRequestError(customErrorMsg)
-                    404 -> throw NotFoundError(customErrorMsg)
-                    500 -> throw ServerError(customErrorMsg)
+                    400 -> {
+                        val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Bad request")
+                        throw BadRequestError(customErrorMsg(responseBody, url))
+                    }
+
+                    404 -> {
+                        val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Not found")
+                        throw NotFoundError(customErrorMsg(responseBody, url))
+                    }
+
+                    500 -> {
+                        val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Server error")
+                        throw ServerError(customErrorMsg(responseBody, url))
+                    }
+
                     else -> throw exception
                 }
             }
@@ -51,6 +65,25 @@ abstract class DataplatformClient {
             request.appendHeader(Headers.AUTHORIZATION, "${token.tokenType} ${token.accessToken}")
         }
         return request
+    }
+
+    private fun customErrorMsg(response: StandardResponse, url: URL): String {
+        return "url: $url\nmessage: ${response.message}"
+    }
+}
+
+data class StandardResponse(
+    val message: String
+) {
+
+    companion object {
+        fun fromRawJson(json: String, fallback_message: String): StandardResponse {
+            try {
+                return jacksonObjectMapper().readValue<StandardResponse>(json)
+            } catch (e: Exception) {
+                return StandardResponse(fallback_message)
+            }
+        }
     }
 }
 
