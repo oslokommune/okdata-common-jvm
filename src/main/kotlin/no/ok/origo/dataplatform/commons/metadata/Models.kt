@@ -43,6 +43,18 @@ data class Edition(
 data class Distribution(
     val Id: String,
     val Type: String,
-    val filename: String,
+    var filename: String?,
+    val filenames: List<String>?,
     val _links: JsonNode
-)
+) {
+    init {
+        when (filename) {
+            null -> require(filenames != null)
+            else -> require(filenames == null)
+        }
+        when (filenames) {
+            null -> require(filename != null)
+            else -> require(filename == null)
+        }
+    }
+}

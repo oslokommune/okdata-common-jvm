@@ -1,3 +1,11 @@
+## 0.1.0
+
+* Add optional field "filenames" to metadat Distribution and make field "filename" optional
+
+## 0.0.26
+
+* Return custom exceptions with info about url-path and response message for failed http-requests.
+
 ## 0.0.25
 
 * The dataset `Dataset.confidentiality` field is now optional.

@@ -1,4 +1,4 @@
-@Library('k8s-jenkins-pipeline-library')
+@Library('k8s-jenkins-pipeline-library@1.3.18')
 
 import no.ok.build.k8s.jenkins.pipeline.stages.*
 import no.ok.build.k8s.jenkins.pipeline.stages.gradle.*
