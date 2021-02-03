@@ -14,6 +14,7 @@ data class Dataset(
     val contactPoint: ContactPoint,
     val description: String?,
     val accessRights: String?,
+    val state: String?,
     val Id: String,
     val Type: String,
     val title: String,
