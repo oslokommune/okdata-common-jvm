@@ -1,3 +1,11 @@
+## 0.3.0
+
+Added a new `source.type` field to the `Dataset` class.
+
+## 0.2.0
+
+Added a new `state` field to the `Dataset` class.
+
 ## 0.1.0
 
 * Add optional field "filenames" to metadat Distribution and make field "filename" optional
