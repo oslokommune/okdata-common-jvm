@@ -18,11 +18,11 @@ data class Dataset(
     val Id: String,
     val Type: String,
     val title: String,
-    val source: Source,
+    val source: DatasetSource,
     val _links: JsonNode
 )
 
-data class Source(
+data class DatasetSource(
     val type: String
 )
 
