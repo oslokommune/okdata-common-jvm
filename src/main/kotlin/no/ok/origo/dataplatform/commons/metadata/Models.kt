@@ -18,7 +18,12 @@ data class Dataset(
     val Id: String,
     val Type: String,
     val title: String,
+    val source: Source,
     val _links: JsonNode
+)
+
+data class Source(
+    val type: String
 )
 
 data class ContactPoint(
