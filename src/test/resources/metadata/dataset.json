@@ -17,6 +17,9 @@
   "title": "Alder distribusjon status",
   "accessRights": "restricted",
   "parent_id": "bydelsfakta-grafdata",
+  "source": {
+    "type": "file"
+  },
   "_links": {
     "self": {
       "href": "/datasets/alder-distribusjon-status"
