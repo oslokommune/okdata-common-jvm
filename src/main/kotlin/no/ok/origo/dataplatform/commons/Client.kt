@@ -5,8 +5,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.core.Headers
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.result.Result
-import java.net.URL
 import no.ok.origo.dataplatform.commons.auth.AuthToken
+import java.net.URL
 
 interface AuthorizedClient {
     fun getToken(): AuthToken
@@ -23,16 +23,18 @@ abstract class DataplatformClient {
         return when (result) {
             is Result.Success -> result.get()
             is Result.Failure -> {
-                logger.debug("Request: " +
+                logger.debug(
+                    "Request: " +
                         "url: ${preparedRequest.url} " +
                         "body: ${preparedRequest.body} "
                 )
 
-                logger.debug("Response: " +
+                logger.debug(
+                    "Response: " +
                         "url: ${response.url} " +
                         "status: ${response.statusCode} ",
-                        "body: ${response.responseMessage} "
-                        )
+                    "body: ${response.responseMessage} "
+                )
                 val exception = result.getException()
                 val statusCode = exception.response.statusCode
                 val rawResponseBody = response.body().asString(contentType = "application/json")

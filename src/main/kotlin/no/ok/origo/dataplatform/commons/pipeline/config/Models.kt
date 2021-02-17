@@ -2,13 +2,13 @@ package no.ok.origo.dataplatform.commons.pipeline.config
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class Config(
     val executionName: String,
     val task: String,
@@ -44,20 +44,20 @@ data class Config(
     }
 }
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class Payload(
     val pipeline: Pipeline,
     val outputDataset: OutputDataset,
     val stepData: StepData
 )
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class Pipeline(
     val id: String,
     val taskConfig: JsonNode = JsonNodeFactory.instance.objectNode()
 )
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class OutputDataset(
     val id: String,
@@ -66,7 +66,7 @@ data class OutputDataset(
     val s3Prefix: String?
 )
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class StepData(
     var inputEvents: List<JsonNode>?,

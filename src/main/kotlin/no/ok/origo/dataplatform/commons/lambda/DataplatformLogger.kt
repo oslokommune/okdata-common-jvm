@@ -2,10 +2,10 @@ package no.ok.origo.dataplatform.commons.lambda
 
 import com.amazonaws.services.lambda.runtime.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import org.slf4j.Logger
 import org.slf4j.event.Level
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class DataplatformLogger(val logger: Logger) {
 
@@ -32,11 +32,11 @@ class DataplatformLogger(val logger: Logger) {
 
     fun logRequestContext(context: Context) {
         logAdd(
-                "aws_request_id" to context.awsRequestId,
-                "function_name" to context.functionName,
-                "memory_limit_in_mb" to context.memoryLimitInMB,
-                "remaining_time_in_millis" to context.remainingTimeInMillis,
-                "service_name" to System.getenv("SERVICE_NAME")
+            "aws_request_id" to context.awsRequestId,
+            "function_name" to context.functionName,
+            "memory_limit_in_mb" to context.memoryLimitInMB,
+            "remaining_time_in_millis" to context.remainingTimeInMillis,
+            "service_name" to System.getenv("SERVICE_NAME")
         )
     }
 

@@ -28,20 +28,20 @@ class MetadataClient(
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
 
     fun datasetPath(datasetid: String? = null) =
-            listOfNotNull("datasets", datasetid)
-                    .joinToString("/")
+        listOfNotNull("datasets", datasetid)
+            .joinToString("/")
 
     fun versionPath(datasetid: String, version: String? = null) =
-            listOfNotNull(datasetPath(datasetid), "versions", version)
-                    .joinToString("/")
+        listOfNotNull(datasetPath(datasetid), "versions", version)
+            .joinToString("/")
 
     fun editionPath(datasetid: String, version: String, edition: String? = null) =
-            listOfNotNull(versionPath(datasetid, version), "editions", edition)
-                    .joinToString("/")
+        listOfNotNull(versionPath(datasetid, version), "editions", edition)
+            .joinToString("/")
 
     fun distributionPath(datasetid: String, version: String, edition: String, distribution: String? = null) =
-            listOfNotNull(editionPath(datasetid, version, edition), "distributions", distribution)
-                    .joinToString("/")
+        listOfNotNull(editionPath(datasetid, version, edition), "distributions", distribution)
+            .joinToString("/")
 
     fun get(path: String, queryParams: List<Pair<String, String>>? = null): ByteArray {
         val url = api.ensureLast('/') + path

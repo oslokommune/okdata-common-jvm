@@ -7,9 +7,9 @@ import io.kotlintest.matchers.collections.shouldNotContain
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.AnnotationSpec
-import java.io.ByteArrayOutputStream
 import uk.org.lidalia.slf4jtest.TestLogger
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
+import java.io.ByteArrayOutputStream
 
 internal class DataplatformLoggingTest() : AnnotationSpec() {
 
@@ -53,11 +53,11 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
         logger.loggingEvents.size shouldBe 1
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
         statements.keys shouldContainAll listOf(
-                "aws_request_id",
-                "function_name",
-                "memory_limit_in_mb",
-                "remaining_time_in_millis",
-                "service_name"
+            "aws_request_id",
+            "function_name",
+            "memory_limit_in_mb",
+            "remaining_time_in_millis",
+            "service_name"
         )
         statements.get("function_name") shouldBe testContext.functionName
         statements.get("service_name") shouldBe System.getenv("SERVICE_NAME")

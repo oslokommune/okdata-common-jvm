@@ -19,7 +19,8 @@ internal class DataplatformHandler : DataplatformLoggingHandler() {
     fun logStuffAndHandleRequest(context: TestContext, stuffToLog: List<LogEntry>) {
         val out = ByteArrayOutputStream()
         stuffToLog.forEach {
-            logAdd(it) }
+            logAdd(it)
+        }
         handleRequest("".byteInputStream(), out, context)
     }
 
@@ -43,7 +44,8 @@ internal class DataplatformRequestHandler : DataplatformLoggingRequestHandler<La
 
     fun logStuffAndHandleRequest(context: TestContext, stuffToLog: List<LogEntry>) {
         stuffToLog.forEach {
-            logAdd(it) }
+            logAdd(it)
+        }
         handleRequest(LambdaEvent("foo", "bar"), context)
     }
 

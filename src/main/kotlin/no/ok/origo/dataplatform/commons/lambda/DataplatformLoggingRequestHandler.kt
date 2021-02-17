@@ -2,11 +2,11 @@ package no.ok.origo.dataplatform.commons.lambda
 
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
+import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.time.ZonedDateTime
-import org.slf4j.LoggerFactory
-import org.slf4j.event.Level
 
 abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
 
@@ -28,19 +28,19 @@ abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
         dataplatformLogger.logRequestContext(context)
         val startTime = ZonedDateTime.now()
         runCatching { handleRequestWithLogging(input, context) }.fold(
-                onFailure = {
-                    val sw = StringWriter()
-                    it.printStackTrace(PrintWriter(sw))
-                    logAdd("stacktrace" to sw.toString())
-                    logAdd("exception" to it.message.toString())
-                    logAdd("exception_name" to (it::class.java::getSimpleName)())
-                    dataplatformLogger.flushLog(Level.ERROR, startTime)
-                    throw it
-                },
-                onSuccess = {
-                    dataplatformLogger.flushLog(Level.INFO, startTime)
-                    return it
-                }
+            onFailure = {
+                val sw = StringWriter()
+                it.printStackTrace(PrintWriter(sw))
+                logAdd("stacktrace" to sw.toString())
+                logAdd("exception" to it.message.toString())
+                logAdd("exception_name" to (it::class.java::getSimpleName)())
+                dataplatformLogger.flushLog(Level.ERROR, startTime)
+                throw it
+            },
+            onSuccess = {
+                dataplatformLogger.flushLog(Level.INFO, startTime)
+                return it
+            }
         )
     }
 

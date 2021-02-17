@@ -23,9 +23,10 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
         every { mockClient.tokenRequest(parameters = any()) } returns om.readValue(authToken)
 
         provider = ClientCredentialsProvider(
-                "client-id",
-                clientSecret = "secret-key",
-                client = mockClient)
+            "client-id",
+            clientSecret = "secret-key",
+            client = mockClient
+        )
     }
 
     @Test
@@ -38,7 +39,7 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
     fun getExpiredToken() {
         val authToken = this::class.java.getResource("/keycloak/auth_token.json").readText()
         val expiredToken: AuthToken = om.readValue<AuthToken>(authToken).copy(
-                expiresIn = -1
+            expiresIn = -1
         )
         every { mockClient.tokenRequest(parameters = any()) } returns expiredToken
 
@@ -50,7 +51,7 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
     suspend fun supportShortLivedTokens() {
         val authToken = this::class.java.getResource("/keycloak/auth_token.json").readText()
         val expiredToken: AuthToken = om.readValue<AuthToken>(authToken).copy(
-                expiresIn = 5
+            expiresIn = 5
         )
         every { mockClient.tokenRequest(parameters = any()) } returns expiredToken
         val local = provider.newToken()

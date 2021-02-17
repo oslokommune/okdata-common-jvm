@@ -32,8 +32,8 @@ class EventCollectorClientTest : AnnotationSpec() {
     fun startWiremock() {
         wireMockServer.start()
         eventCollectorClient = EventCollectorClient(
-                "http://localhost:${wireMockServer.port()}",
-                clientCredentialsProviderMock
+            "http://localhost:${wireMockServer.port()}",
+            clientCredentialsProviderMock
         )
     }
 
@@ -62,12 +62,16 @@ class EventCollectorClientTest : AnnotationSpec() {
         val route = "/events/$datasetId/$version"
         val testObject = TestEvent("foo", "bar")
         val eventList = listOf(testObject, testObject)
-        wireMockServer.stubFor(post(urlEqualTo(route))
+        wireMockServer.stubFor(
+            post(urlEqualTo(route))
                 .withHeader("Authorization", equalTo("bearer ${authToken.accessToken}"))
                 .withRequestBody(equalTo(jacksonObjectMapper().writeValueAsString(eventList)))
-                .willReturn(aResponse()
+                .willReturn(
+                    aResponse()
                         .withStatus(200)
-                        .withBody("""{"message": "Ok"}""")))
+                        .withBody("""{"message": "Ok"}""")
+                )
+        )
 
         val responseObject = eventCollectorClient.postEvents(eventList, datasetId, version)
 
@@ -81,16 +85,21 @@ class EventCollectorClientTest : AnnotationSpec() {
         val version = "test-version"
         val route = "/events/$datasetId/$version"
         val responseBody = """{"message": "Custom msg"}"""
-        wireMockServer.stubFor(post(urlEqualTo(route))
-                .willReturn(aResponse()
+        wireMockServer.stubFor(
+            post(urlEqualTo(route))
+                .willReturn(
+                    aResponse()
                         .withStatus(404)
-                        .withBody(responseBody)))
+                        .withBody(responseBody)
+                )
+        )
 
         val testObject = TestEvent("foo", "bar")
         val li = listOf(testObject, testObject)
 
         val exeption = shouldThrow<NotFoundError> {
-            eventCollectorClient.postEvents(li, datasetId, version) }
+            eventCollectorClient.postEvents(li, datasetId, version)
+        }
         exeption.localizedMessage shouldBe "url: http://localhost:${wireMockServer.port()}/events/$datasetId/$version\nmessage: Custom msg"
     }
 

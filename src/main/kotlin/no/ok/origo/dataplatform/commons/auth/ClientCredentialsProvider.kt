@@ -10,9 +10,11 @@ class ClientCredentialsProvider(
     private val logger = loggerFor(javaClass)
 
     private var _token: AuthToken
+
     init {
         _token = newToken()
     }
+
     val token: AuthToken
         get() {
             return when {
@@ -30,19 +32,19 @@ class ClientCredentialsProvider(
 
     fun newToken(): AuthToken {
         val formData = listOf(
-                "client_id" to clientId,
-                "client_secret" to clientSecret,
-                "grant_type" to "client_credentials"
+            "client_id" to clientId,
+            "client_secret" to clientSecret,
+            "grant_type" to "client_credentials"
         )
         return client.tokenRequest(parameters = formData)
     }
 
     fun refreshToken(): AuthToken {
         val formData = listOf(
-                "client_id" to clientId,
-                "client_secret" to clientSecret,
-                "refresh_token" to _token.refreshToken,
-                "grant_type" to "refresh_token"
+            "client_id" to clientId,
+            "client_secret" to clientSecret,
+            "refresh_token" to _token.refreshToken,
+            "grant_type" to "refresh_token"
         )
         return client.tokenRequest(parameters = formData)
     }
