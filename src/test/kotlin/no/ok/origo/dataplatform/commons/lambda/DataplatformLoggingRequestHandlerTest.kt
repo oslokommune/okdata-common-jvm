@@ -7,9 +7,12 @@ import io.kotlintest.matchers.collections.shouldNotContain
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.AnnotationSpec
+import io.mockk.every
+import io.mockk.mockkStatic
 import uk.org.lidalia.slf4jtest.TestLogger
 import uk.org.lidalia.slf4jtest.TestLoggerFactory
 import java.io.ByteArrayOutputStream
+import java.time.ZonedDateTime
 
 internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
 
@@ -77,6 +80,17 @@ internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
         secondStatements.get("aws_request_id") shouldBe secondTestContext.awsRequestId
         secondStatements.keys shouldNotContain "kake"
         secondStatements.keys shouldNotContain "length"
+    }
+
+    @Test
+    fun `timestamp has correct format`() {
+        val localDatetimeExpected = ZonedDateTime.parse("2021-02-17T11:11:49.249+01:00")
+        mockkStatic(ZonedDateTime::class)
+        every { ZonedDateTime.now() } returns localDatetimeExpected
+        handler.handleRequest(LambdaEvent("foo", "bar"), testContext)
+        logger.loggingEvents.size shouldBe 1
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
+        statements.get("timestamp") shouldBe "2021-02-17T10:11:49.249Z"
     }
 
     @Test

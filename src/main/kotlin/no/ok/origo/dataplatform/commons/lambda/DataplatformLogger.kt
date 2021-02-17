@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.Logger
 import org.slf4j.event.Level
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -17,7 +18,7 @@ class DataplatformLogger(val logger: Logger) {
 
     fun flushLog(level: Level, startTime: ZonedDateTime) {
         val durationMs = calculateDuration(startTime)
-        val timestampISO = startTime.format(DateTimeFormatter.ISO_DATE_TIME).toString()
+        val timestampISO = startTime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         logAdd("timestamp" to timestampISO, "duration_ms" to durationMs)
         val logContent = logContent.toJson()
         when (level) {
