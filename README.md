@@ -12,6 +12,7 @@ git pull
 ./gradlew clean build
 ./gradlew publish
 git add .
+git commit -m "Release <new-version>"
 git tag -a v<new-version> -m "Release <new-version>"
 git push --follow-tags
 ```
@@ -25,6 +26,7 @@ Change incrementPatch -> incrementMinor in build.gradle:generateMetadataFileForC
 ./gradlew publish
 Change back to incrementPatch in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
 git add .
+git commit -m "Release <new-version>"
 git tag -a v<new-version> -m "Release <new-version>"
 git push --follow-tags
 ```
@@ -38,6 +40,7 @@ Change incrementPatch -> incrementMajor in build.gradle:generateMetadataFileForC
 ./gradlew publish
 Change back to incrementPatch in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
 git add .
+git commit -m "Release <new-version>"
 git tag -a v<new-version> -m "Release <new-version>"
 git push --follow-tags
 ```
