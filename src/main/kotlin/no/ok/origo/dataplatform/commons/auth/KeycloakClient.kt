@@ -8,6 +8,7 @@ import no.ok.origo.dataplatform.commons.readValue
 
 class KeycloakClient(val server: String, val realm: String) : DataplatformClient() {
     var tokenEndpoint: String
+
     init {
         tokenEndpoint = wellKnownConfiguration().get("token_endpoint").textValue()
     }

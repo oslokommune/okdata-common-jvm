@@ -1,14 +1,15 @@
 ## ?.?.?
 
-Added logging of timestamp and duration for Lambdas.
+* Added logging of timestamp and duration for Lambdas.
+* Upgraded to Kotlin 1.4.
 
 ## 0.3.0
 
-Added a new `source.type` field to the `Dataset` class.
+* Added a new `source.type` field to the `Dataset` class.
 
 ## 0.2.0
 
-Added a new `state` field to the `Dataset` class.
+* Added a new `state` field to the `Dataset` class.
 
 ## 0.1.0
 

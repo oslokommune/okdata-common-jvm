@@ -25,9 +25,11 @@ internal class PipelineClientTest : AnnotationSpec() {
     @BeforeEach
     fun beforeEach() {
         val credentials = mockk<ClientCredentialsProvider>(relaxed = true)
-        client = spyk(PipelineClient(
+        client = spyk(
+            PipelineClient(
                 credentialsProvider = credentials,
-                baseUrl = "https://mock/")
+                baseUrl = "https://mock/"
+            )
         )
     }
 
@@ -81,7 +83,11 @@ internal class PipelineClientTest : AnnotationSpec() {
     @Test
     fun getPipelineInstances() {
         val path = slot<String>()
-        every { client.get(path = capture(path), queryParams = null) } returns om.writeValueAsBytes(listOf(pipelineInstance))
+        every { client.get(path = capture(path), queryParams = null) } returns om.writeValueAsBytes(
+            listOf(
+                pipelineInstance
+            )
+        )
 
         client.getPipelineInstances() shouldBe listOf(pipelineInstance)
         path.captured shouldBe "pipeline-instances"
@@ -90,7 +96,12 @@ internal class PipelineClientTest : AnnotationSpec() {
     @Test
     fun getPipelineInputs() {
         val path = slot<String>()
-        every { client.get(path = capture(path), queryParams = null) } returns om.writeValueAsBytes(listOf(pipelineInput))
+        every {
+            client.get(
+                path = capture(path),
+                queryParams = null
+            )
+        } returns om.writeValueAsBytes(listOf(pipelineInput))
 
         client.getPipelineInputs(pipelineInput.pipelineInstanceId) shouldBe listOf(pipelineInput)
         path.captured shouldBe "pipeline-instances/${pipelineInput.pipelineInstanceId}/inputs"
@@ -101,24 +112,37 @@ internal class PipelineClientTest : AnnotationSpec() {
         val path = slot<String>()
         val params = slot<List<Pair<String, String>>>()
 
-        every { client.get(path = capture(path), queryParams = capture(params)) } returns om.writeValueAsBytes(listOf(pipelineInstance))
+        every { client.get(path = capture(path), queryParams = capture(params)) } returns om.writeValueAsBytes(
+            listOf(
+                pipelineInstance
+            )
+        )
 
         val (_, inputDatasetId, inputVersion) = pipelineInput.datasetUri.split("/")
 
         client.getPipelineInstances(
-                inputDatasetId = inputDatasetId,
-                inputDatasetVersion = inputVersion,
-                inputDatasetStage = pipelineInput.stage
+            inputDatasetId = inputDatasetId,
+            inputDatasetVersion = inputVersion,
+            inputDatasetStage = pipelineInput.stage
         ) shouldBe listOf(pipelineInstance)
 
         path.captured shouldBe "pipeline-instances"
-        params.captured shouldBe listOf("dataset-id" to inputDatasetId, "version" to inputVersion, "stage" to pipelineInput.stage)
+        params.captured shouldBe listOf(
+            "dataset-id" to inputDatasetId,
+            "version" to inputVersion,
+            "stage" to pipelineInput.stage
+        )
     }
 
     @Test
     fun pipelineInstanceExtensionTest() {
         val path = slot<String>()
-        every { client.get(path = capture(path), queryParams = null) } returns om.writeValueAsBytes(listOf(pipelineInput))
+        every {
+            client.get(
+                path = capture(path),
+                queryParams = null
+            )
+        } returns om.writeValueAsBytes(listOf(pipelineInput))
 
         client.run {
             pipelineInstance.getPipelineInputs() shouldBe listOf(pipelineInput)

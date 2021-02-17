@@ -9,11 +9,14 @@ import io.kotlintest.specs.AnnotationSpec
 class ModelsTest : AnnotationSpec() {
 
     val om = jacksonObjectMapper()
+
     @Test
     fun `test deserialize Distribution`() {
 
-        val rawJsonWithFilename = """{"Id": "some-id", "Type": "Distribution", "filename": "file.csv", "_links": {"foo": "bar"}}"""
-        val rawJsonWithFilenames = """{"Id": "some-id", "Type": "Distribution", "filenames": ["file.csv"], "_links": {"foo": "bar"}}"""
+        val rawJsonWithFilename =
+            """{"Id": "some-id", "Type": "Distribution", "filename": "file.csv", "_links": {"foo": "bar"}}"""
+        val rawJsonWithFilenames =
+            """{"Id": "some-id", "Type": "Distribution", "filenames": ["file.csv"], "_links": {"foo": "bar"}}"""
 
         val distributionWithFilename = om.readValue<Distribution>(rawJsonWithFilename)
         val distributionWithFilenames = om.readValue<Distribution>(rawJsonWithFilenames)
@@ -28,7 +31,8 @@ class ModelsTest : AnnotationSpec() {
     @Test
     fun `test Distribution filename and filenames requirements`() {
         val rawJsonFilenameAndFilenamesNull = """{"Id": "some-id", "Type": "Distribution", "_links": {"foo": "bar"}}"""
-        val rawJsonFilenameAndFilenamesNotNull = """{"Id": "some-id", "Type": "Distribution", "filename": "file.csv", "filenames": ["file.csv"], "_links": {"foo": "bar"}}"""
+        val rawJsonFilenameAndFilenamesNotNull =
+            """{"Id": "some-id", "Type": "Distribution", "filename": "file.csv", "filenames": ["file.csv"], "_links": {"foo": "bar"}}"""
 
         shouldThrow<ValueInstantiationException> {
             om.readValue<Distribution>(rawJsonFilenameAndFilenamesNull)

@@ -17,12 +17,12 @@ class ModelsTest : AnnotationSpec() {
         val config = om.readValue<Config>(rawJson)
         val json = om.readTree(rawJson)
         val s3_prefix = json.get("payload")
-                .get("output_dataset")
-                .get("s3_prefix")
-                .textValue()
-                .replace("%stage%", "intermediate")
-                .plus(config.task)
-                .plus("/")
+            .get("output_dataset")
+            .get("s3_prefix")
+            .textValue()
+            .replace("%stage%", "intermediate")
+            .plus(config.task)
+            .plus("/")
 
         s3_prefix shouldBe config.getIntermediatePrefix()
     }
@@ -81,7 +81,8 @@ class ModelsTest : AnnotationSpec() {
 
     @Test
     fun `Test override default task config`() {
-        val rawJson = this::class.java.getResource("/pipeline/config/event_overriding_default_task_config.json").readText()
+        val rawJson =
+            this::class.java.getResource("/pipeline/config/event_overriding_default_task_config.json").readText()
         val config = om.readValue<Config>(rawJson)
 
         config.getTaskConfig().get("some_config_1").textValue() shouldBe "some default value"
