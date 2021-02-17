@@ -1,4 +1,4 @@
-## ?.?.?
+## 0.4.0
 
 * Added logging of timestamp and duration for Lambdas.
 * Upgraded to Kotlin 1.4.
