@@ -1,6 +1,9 @@
 package no.ok.origo.dataplatform.commons.lambda
 
+import com.amazonaws.services.lambda.runtime.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import org.slf4j.Logger
 import org.slf4j.event.Level
 
@@ -12,7 +15,10 @@ class DataplatformLogger(val logger: Logger) {
         logContent.putAll(statements)
     }
 
-    fun flushLog(level: Level) {
+    fun flushLog(level: Level, startTime: ZonedDateTime) {
+        val durationMs = calculateDuration(startTime)
+        val timestampISO = startTime.format(DateTimeFormatter.ISO_DATE_TIME).toString()
+        logAdd("timestamp" to timestampISO, "duration_ms" to durationMs)
         val logContent = logContent.toJson()
         when (level) {
             Level.INFO -> logger.info(logContent)
@@ -22,6 +28,21 @@ class DataplatformLogger(val logger: Logger) {
             Level.TRACE -> logger.trace(logContent)
         }
         this.logContent.clear()
+    }
+
+    fun logRequestContext(context: Context) {
+        logAdd(
+                "aws_request_id" to context.awsRequestId,
+                "function_name" to context.functionName,
+                "memory_limit_in_mb" to context.memoryLimitInMB,
+                "remaining_time_in_millis" to context.remainingTimeInMillis,
+                "service_name" to System.getenv("SERVICE_NAME")
+        )
+    }
+
+    fun calculateDuration(startTime: ZonedDateTime): Long {
+        val startTimeMillis = startTime.toInstant().toEpochMilli()
+        return ZonedDateTime.now().toInstant().toEpochMilli() - startTimeMillis
     }
 }
 

@@ -4,26 +4,13 @@ import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.RequestHandler
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.time.ZonedDateTime
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 
 abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
 
     var dataplatformLogger = DataplatformLogger(LoggerFactory.getLogger(this::class.java))
-
-    private fun flushLog(level: Level = Level.INFO) {
-        dataplatformLogger.flushLog(level)
-    }
-
-    private fun logRequestContext(context: Context) {
-        dataplatformLogger.logAdd(
-                "aws_request_id" to context.awsRequestId,
-                "function_name" to context.functionName,
-                "memory_limit_in_mb" to context.memoryLimitInMB,
-                "remaining_time_in_millis" to context.remainingTimeInMillis,
-                "service_name" to System.getenv("SERVICE_NAME")
-        )
-    }
 
     fun logAdd(key: String, value: Any) {
         dataplatformLogger.logAdd(key to value)
@@ -38,7 +25,8 @@ abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
     }
 
     override fun handleRequest(input: I, context: Context): O {
-        logRequestContext(context)
+        dataplatformLogger.logRequestContext(context)
+        val startTime = ZonedDateTime.now()
         runCatching { handleRequestWithLogging(input, context) }.fold(
                 onFailure = {
                     val sw = StringWriter()
@@ -46,11 +34,11 @@ abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
                     logAdd("stacktrace" to sw.toString())
                     logAdd("exception" to it.message.toString())
                     logAdd("exception_name" to (it::class.java::getSimpleName)())
-                    flushLog(level = Level.ERROR)
+                    dataplatformLogger.flushLog(Level.ERROR, startTime)
                     throw it
                 },
                 onSuccess = {
-                    flushLog(level = Level.INFO)
+                    dataplatformLogger.flushLog(Level.INFO, startTime)
                     return it
                 }
         )

@@ -6,26 +6,13 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.time.ZonedDateTime
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 
 abstract class DataplatformLoggingHandler : RequestStreamHandler {
 
     var dataplatformLogger = DataplatformLogger(LoggerFactory.getLogger(this::class.java))
-
-    private fun flushLog(level: Level = Level.INFO) {
-        dataplatformLogger.flushLog(level)
-    }
-
-    private fun logRequestContext(context: Context) {
-        dataplatformLogger.logAdd(
-                "aws_request_id" to context.awsRequestId,
-                "function_name" to context.functionName,
-                "memory_limit_in_mb" to context.memoryLimitInMB,
-                "remaining_time_in_millis" to context.remainingTimeInMillis,
-                "service_name" to System.getenv("SERVICE_NAME")
-        )
-    }
 
     fun logAdd(key: String, value: Any) {
         dataplatformLogger.logAdd(key to value)
@@ -40,7 +27,8 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
     }
 
     override fun handleRequest(input: InputStream, output: OutputStream, context: Context) {
-        logRequestContext(context)
+        dataplatformLogger.logRequestContext(context)
+        val startTime = ZonedDateTime.now()
         runCatching { handleRequestWithLogging(input, output, context) }.fold(
                 onFailure = {
                     val sw = StringWriter()
@@ -48,11 +36,11 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
                     logAdd("stacktrace" to sw.toString())
                     logAdd("exception" to it.message.toString())
                     logAdd("exception_name" to (it::class.java::getSimpleName)())
-                    flushLog(level = Level.ERROR)
+                    dataplatformLogger.flushLog(level = Level.ERROR, startTime = startTime)
                     throw it
                 },
                 onSuccess = {
-                    flushLog(level = Level.INFO)
+                    dataplatformLogger.flushLog(level = Level.INFO, startTime = startTime)
                 }
         )
     }

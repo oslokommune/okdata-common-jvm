@@ -1,3 +1,7 @@
+## ?.?.?
+
+Added logging of timestamp and duration for Lambdas.
+
 ## 0.3.0
 
 Added a new `source.type` field to the `Dataset` class.
