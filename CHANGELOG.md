@@ -1,3 +1,6 @@
+## 0.4.1
+* Log timestamp with correct format
+
 ## 0.4.0
 
 * Added logging of timestamp and duration for Lambdas.
