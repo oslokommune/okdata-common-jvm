@@ -20,6 +20,7 @@ class DataplatformLogger(val logger: Logger) {
         val durationMs = calculateDuration(startTime)
         val timestampISO = startTime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         logAdd("timestamp" to timestampISO, "duration_ms" to durationMs)
+        logAdd("level" to level.name.toLowerCase())
         val logContent = logContent.toJson()
         when (level) {
             Level.INFO -> logger.info(logContent)
