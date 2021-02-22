@@ -46,6 +46,7 @@ internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
         statements.get("final") shouldBe "hello again"
         statements.get("user") shouldBe "ID-123"
+        statements.get("level") shouldBe "info"
     }
 
     @Test
@@ -104,6 +105,7 @@ internal class DataplatformLoggingRequestHandlerTest : AnnotationSpec() {
         logger.loggingEvents.size shouldBe 1
         val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
         val expectedException = ExpectedException()
+        statements.get("level") shouldBe "error"
         statements.get("exception") shouldBe expectedException.message
         statements.get("exception_name") shouldBe "ExpectedException"
         val stacktrace = statements.get("stacktrace") as String
