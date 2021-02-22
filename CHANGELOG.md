@@ -1,4 +1,9 @@
+## 0.4.2
+
+* Include log level in log events
+
 ## 0.4.1
+
 * Log timestamp with correct format
 
 ## 0.4.0
