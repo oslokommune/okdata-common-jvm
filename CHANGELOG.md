@@ -1,3 +1,7 @@
+## 0.4.3
+
+* Add retries to http calls from clients
+
 ## 0.4.2
 
 * Include log level in log events
