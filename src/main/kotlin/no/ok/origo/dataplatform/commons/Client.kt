@@ -5,8 +5,13 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.core.Headers
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.result.Result
+import io.github.resilience4j.core.IntervalFunction
+import io.github.resilience4j.retry.Retry
+import io.github.resilience4j.retry.RetryConfig
+import io.github.resilience4j.retry.RetryRegistry
 import no.ok.origo.dataplatform.commons.auth.AuthToken
 import java.net.URL
+import java.util.function.Supplier
 
 interface AuthorizedClient {
     fun getToken(): AuthToken
@@ -16,7 +21,28 @@ abstract class DataplatformClient {
     private val logger = loggerFor(this::class.java)
     open val om = jacksonObjectMapper()
 
+    val MAX_RETRIES = 3
+
+    private val intervalFunction = IntervalFunction
+        .ofExponentialRandomBackoff()
+
+    // https://github.com/resilience4j/resilience4j/issues/758
+    private val retryConfig = RetryConfig.custom<RetryConfig>()
+        .maxAttempts(MAX_RETRIES)
+        .intervalFunction(intervalFunction)
+        .retryExceptions(ServerError::class.java)
+        .build()
+
     fun performRequest(request: Request): ByteArray {
+        val registry = RetryRegistry.of(retryConfig)
+        val retry = registry.retry("execute")
+
+        val executeWithRetry: Supplier<ByteArray> = Retry.decorateSupplier(retry) { execute(request) }
+
+        return executeWithRetry.get()
+    }
+
+    fun execute(request: Request): ByteArray {
         addAuthorizationHeader(request)
         val (preparedRequest, response, result) = request.response()
 
@@ -50,7 +76,7 @@ abstract class DataplatformClient {
                         throw NotFoundError(customErrorMsg(responseBody, url))
                     }
 
-                    500 -> {
+                    500, 502, 503, 504 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Server error")
                         throw ServerError(customErrorMsg(responseBody, url))
                     }
@@ -89,8 +115,8 @@ data class StandardResponse(
     }
 }
 
-class NotFoundError(message: String) : Exception(message)
+class NotFoundError(message: String) : RuntimeException(message)
 
-class ServerError(message: String) : Exception(message)
+class ServerError(message: String) : RuntimeException(message)
 
-class BadRequestError(message: String) : Exception(message)
+class BadRequestError(message: String) : RuntimeException(message)
