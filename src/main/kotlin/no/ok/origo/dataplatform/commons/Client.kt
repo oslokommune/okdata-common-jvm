@@ -68,20 +68,20 @@ abstract class DataplatformClient {
                 when (statusCode) {
                     400 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Bad request")
-                        throw BadRequestError(customErrorMsg(responseBody, url))
+                        throw BadRequestError(customErrorMsg(statusCode, responseBody, url))
                     }
 
                     404 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Not found")
-                        throw NotFoundError(customErrorMsg(responseBody, url))
+                        throw NotFoundError(customErrorMsg(statusCode, responseBody, url))
                     }
 
                     500, 502, 503, 504 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Server error")
-                        throw ServerError(customErrorMsg(responseBody, url))
+                        throw ServerError(customErrorMsg(statusCode, responseBody, url))
                     }
 
-                    else -> throw exception
+                    else -> throw UnforseenError(customErrorMsg(statusCode, url), exception)
                 }
             }
         }
@@ -95,8 +95,12 @@ abstract class DataplatformClient {
         return request
     }
 
-    private fun customErrorMsg(response: StandardResponse, url: URL): String {
-        return "url: $url\nmessage: ${response.message}"
+    private fun customErrorMsg(statusCode: Int, responseBody: StandardResponse, url: URL): String {
+        return "url: $url\nstatusCode: $statusCode\nmessage: ${responseBody.message}"
+    }
+
+    private fun customErrorMsg(statusCode: Int, url: URL): String {
+        return "url: $url\nstatusCode: $statusCode"
     }
 }
 
@@ -120,3 +124,5 @@ class NotFoundError(message: String) : RuntimeException(message)
 class ServerError(message: String) : RuntimeException(message)
 
 class BadRequestError(message: String) : RuntimeException(message)
+
+class UnforseenError(message: String, cause: Throwable) : RuntimeException(message, cause)

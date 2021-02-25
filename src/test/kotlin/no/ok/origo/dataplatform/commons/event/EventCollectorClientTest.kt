@@ -100,7 +100,8 @@ class EventCollectorClientTest : AnnotationSpec() {
         val exeption = shouldThrow<NotFoundError> {
             eventCollectorClient.postEvents(li, datasetId, version)
         }
-        exeption.localizedMessage shouldBe "url: http://localhost:${wireMockServer.port()}/events/$datasetId/$version\nmessage: Custom msg"
+        exeption.localizedMessage shouldBe "url: http://localhost:${wireMockServer.port()}/events/$datasetId/$version\n" +
+            "statusCode: 404\nmessage: Custom msg"
     }
 
     @Test
