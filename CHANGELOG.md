@@ -1,3 +1,8 @@
+## 0.4.4
+
+* Added http status code to error messages
+* Added custom UnforseenError
+
 ## 0.4.3
 
 * Add retries to http calls from clients
