@@ -1,3 +1,7 @@
+## 0.4.5
+
+* Add retries on SocketException
+
 ## 0.4.4
 
 * Added http status code to error messages
