@@ -36,11 +36,11 @@ abstract class DataplatformLoggingHandler : RequestStreamHandler {
                 logAdd("stacktrace" to sw.toString())
                 logAdd("exception" to it.message.toString())
                 logAdd("exception_name" to (it::class.java::getSimpleName)())
-                dataplatformLogger.flushLog(Level.ERROR, startTime)
+                dataplatformLogger.flushLog(Level.ERROR, startTime, context)
                 throw it
             },
             onSuccess = {
-                dataplatformLogger.flushLog(Level.INFO, startTime)
+                dataplatformLogger.flushLog(Level.INFO, startTime, context)
             }
         )
     }

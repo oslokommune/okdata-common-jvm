@@ -16,11 +16,12 @@ class DataplatformLogger(val logger: Logger) {
         logContent.putAll(statements)
     }
 
-    fun flushLog(level: Level, startTime: ZonedDateTime) {
+    fun flushLog(level: Level, startTime: ZonedDateTime, context: Context) {
         val durationMs = calculateDuration(startTime)
         val timestampISO = startTime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         logAdd("timestamp" to timestampISO, "duration_ms" to durationMs)
         logAdd("level" to level.name.toLowerCase())
+        logAdd("remaining_time_in_millis" to context.remainingTimeInMillis)
         val logContent = logContent.toJson()
         when (level) {
             Level.INFO -> logger.info(logContent)
@@ -37,7 +38,6 @@ class DataplatformLogger(val logger: Logger) {
             "aws_request_id" to context.awsRequestId,
             "function_name" to context.functionName,
             "memory_limit_in_mb" to context.memoryLimitInMB,
-            "remaining_time_in_millis" to context.remainingTimeInMillis,
             "service_name" to System.getenv("SERVICE_NAME")
         )
     }
