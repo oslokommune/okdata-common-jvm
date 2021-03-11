@@ -10,6 +10,10 @@ import java.time.format.DateTimeFormatter
 
 class DataplatformLogger(val logger: Logger) {
 
+    companion object {
+        private var coldStart = true
+    }
+
     private val logContent = mutableMapOf<String, Any>()
 
     fun logAdd(vararg statements: LogEntry) {
@@ -38,8 +42,10 @@ class DataplatformLogger(val logger: Logger) {
             "aws_request_id" to context.awsRequestId,
             "function_name" to context.functionName,
             "memory_limit_in_mb" to context.memoryLimitInMB,
-            "service_name" to System.getenv("SERVICE_NAME")
+            "service_name" to System.getenv("SERVICE_NAME"),
+            "cold_start" to coldStart
         )
+        coldStart = false
     }
 
     fun calculateDuration(startTime: ZonedDateTime): Long {
