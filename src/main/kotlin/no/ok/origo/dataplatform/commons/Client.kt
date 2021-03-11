@@ -10,6 +10,7 @@ import io.github.resilience4j.retry.Retry
 import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
 import no.ok.origo.dataplatform.commons.auth.AuthToken
+import java.net.SocketException
 import java.net.URL
 import java.util.function.Supplier
 
@@ -61,27 +62,33 @@ abstract class DataplatformClient {
                         "status: ${response.statusCode} ",
                     "body: ${response.responseMessage} "
                 )
-                val exception = result.getException()
-                val statusCode = exception.response.statusCode
+                val fuelError = result.getException()
+                val exception = fuelError.exception
+                val statusCode = fuelError.response.statusCode
                 val rawResponseBody = response.body().asString(contentType = "application/json")
                 val url = preparedRequest.url
                 when (statusCode) {
                     400 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Bad request")
-                        throw BadRequestError(customErrorMsg(statusCode, responseBody, url))
+                        throw BadRequestError(customErrorMsg(statusCode, responseBody, url), exception)
                     }
 
                     404 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Not found")
-                        throw NotFoundError(customErrorMsg(statusCode, responseBody, url))
+                        throw NotFoundError(customErrorMsg(statusCode, responseBody, url), exception)
                     }
 
                     500, 502, 503, 504 -> {
                         val responseBody = StandardResponse.fromRawJson(rawResponseBody, "Server error")
-                        throw ServerError(customErrorMsg(statusCode, responseBody, url))
+                        throw ServerError(customErrorMsg(statusCode, responseBody, url), exception)
                     }
 
-                    else -> throw UnforseenError(customErrorMsg(statusCode, url), exception)
+                    else ->
+                        if (exception is SocketException) {
+                            throw ServerError(customErrorMsg(statusCode, url), exception)
+                        } else {
+                            throw UnforseenError(customErrorMsg(statusCode, url), exception)
+                        }
                 }
             }
         }
@@ -119,10 +126,10 @@ data class StandardResponse(
     }
 }
 
-class NotFoundError(message: String) : RuntimeException(message)
+class NotFoundError(message: String, cause: Throwable) : RuntimeException(message, cause)
 
-class ServerError(message: String) : RuntimeException(message)
+class ServerError(message: String, cause: Throwable) : RuntimeException(message, cause)
 
-class BadRequestError(message: String) : RuntimeException(message)
+class BadRequestError(message: String, cause: Throwable) : RuntimeException(message, cause)
 
 class UnforseenError(message: String, cause: Throwable) : RuntimeException(message, cause)
