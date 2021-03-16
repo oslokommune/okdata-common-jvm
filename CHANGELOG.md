@@ -1,3 +1,8 @@
+## 0.4.6
+
+* Add logging of cold start state for Lambda functions
+* Fix logging of remaining time for Lambda functions
+
 ## 0.4.5
 
 * Add retries on SocketException
