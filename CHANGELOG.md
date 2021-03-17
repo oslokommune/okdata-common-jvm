@@ -1,3 +1,7 @@
+## 0.4.7 (Unreleased)
+
+* Add retries on socket timeout
+
 ## 0.4.6
 
 * Add logging of cold start state for Lambda functions

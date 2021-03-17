@@ -11,6 +11,7 @@ import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
 import no.ok.origo.dataplatform.commons.auth.AuthToken
 import java.net.SocketException
+import java.net.SocketTimeoutException
 import java.net.URL
 import java.util.function.Supplier
 
@@ -83,12 +84,11 @@ abstract class DataplatformClient {
                         throw ServerError(customErrorMsg(statusCode, responseBody, url), exception)
                     }
 
-                    else ->
-                        if (exception is SocketException) {
+                    else -> when (exception) {
+                        is SocketException, is SocketTimeoutException ->
                             throw ServerError(customErrorMsg(statusCode, url), exception)
-                        } else {
-                            throw UnforseenError(customErrorMsg(statusCode, url), exception)
-                        }
+                        else -> throw UnforseenError(customErrorMsg(statusCode, url), exception)
+                    }
                 }
             }
         }
