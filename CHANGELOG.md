@@ -1,4 +1,4 @@
-## 0.4.7 (Unreleased)
+## 0.4.7
 
 * Add retries on socket timeout
 
