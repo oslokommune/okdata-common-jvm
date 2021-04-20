@@ -1,3 +1,7 @@
+## 0.5.0
+
+* Add client ResourceAuthorizer for authorizing resource access with keycloak
+
 ## 0.4.7
 
 * Add retries on socket timeout
