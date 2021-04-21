@@ -1,3 +1,8 @@
+## 0.5.1
+
+* Rename ResourceAuthorizer.is_authorized -> ResourceAuthorizer.isAuthorized
+* Add flag for whitelist overriding in ResourceAuthorizer.isAuthorized
+
 ## 0.5.0
 
 * Add client ResourceAuthorizer for authorizing resource access with keycloak
