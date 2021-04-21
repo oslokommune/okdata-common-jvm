@@ -12,7 +12,7 @@ class ResourceAuthorizer(
 
     private val objectMapper = jacksonObjectMapper()
 
-    fun is_authorized(accessToken: String, scope: String, resource: String? = null): Boolean {
+    fun isAuthorized(accessToken: String, scope: String, resource: String? = null, useWhitelist: Boolean = false): Boolean {
 
         val authParameters = listOf(
             "grant_type" to "urn:ietf:params:oauth:grant-type:uma-ticket",
@@ -29,17 +29,25 @@ class ResourceAuthorizer(
             )
 
         val (request, response, result) = authorizationRequest.response()
-        return when (result) {
+        val hasAccess = when (result) {
             is Result.Success ->
                 objectMapper
                     .readValue<Decision>(response.body().toByteArray())
                     .result
             is Result.Failure -> {
-                val fuelError = result.getException()
-                if (fuelError.response.statusCode == 403) return false
-                throw fuelError
+                when (result.getException().response.statusCode) {
+                    403 -> false
+                    else ->
+                        throw result.getException()
+                }
             }
         }
+
+        if (!hasAccess and useWhitelist) {
+            return isAuthorized(accessToken, "okdata:dataset:whitelist", useWhitelist = false)
+        }
+
+        return hasAccess
     }
 
     data class Decision(

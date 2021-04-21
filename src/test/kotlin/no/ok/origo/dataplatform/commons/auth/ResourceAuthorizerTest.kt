@@ -62,7 +62,7 @@ class ResourceAuthorizerTest : AnnotationSpec() {
                 )
         )
 
-        resourceAuthorizer.is_authorized(accessToken, scope, resourceName) shouldBe true
+        resourceAuthorizer.isAuthorized(accessToken, scope, resourceName) shouldBe true
     }
 
     @Test
@@ -90,7 +90,7 @@ class ResourceAuthorizerTest : AnnotationSpec() {
                 )
         )
 
-        resourceAuthorizer.is_authorized(accessToken, scope) shouldBe true
+        resourceAuthorizer.isAuthorized(accessToken, scope) shouldBe true
     }
 
     @Test
@@ -119,7 +119,107 @@ class ResourceAuthorizerTest : AnnotationSpec() {
                 )
         )
 
-        resourceAuthorizer.is_authorized(accessToken, scope, resourceName) shouldBe false
+        resourceAuthorizer.isAuthorized(accessToken, scope, resourceName) shouldBe false
+    }
+
+    @Test
+    fun `test authorize resource and scope whitelist override true`() {
+        val accessToken = "hdajfladfefdasfasjf"
+        val resourceName = "okdata:dataset:some-dataset"
+        val scope = "okdata:dataset:read"
+        wireMockServer.stubFor(
+            post(urlEqualTo("/token"))
+                .withHeader("Authorization", equalTo("Bearer $accessToken"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(
+                    matching(
+                        (
+                            "grant_type=${urlEncode("urn:ietf:params:oauth:grant-type:uma-ticket")}&" +
+                                "audience=${urlEncode(resourceServerClientId)}&" +
+                                "response_mode=decision&" +
+                                "permission=${urlEncode("$resourceName#$scope")}"
+                            )
+                    )
+                )
+                .willReturn(
+                    aResponse()
+                        .withStatus(403)
+                        .withBody("""{"error": "access_denied","error_description": "not_authorized"}""")
+                )
+        )
+
+        wireMockServer.stubFor(
+            post(urlEqualTo("/token"))
+                .withHeader("Authorization", equalTo("Bearer $accessToken"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(
+                    matching(
+                        (
+                            "grant_type=${urlEncode("urn:ietf:params:oauth:grant-type:uma-ticket")}&" +
+                                "audience=${urlEncode(resourceServerClientId)}&" +
+                                "response_mode=decision&" +
+                                "permission=${urlEncode("#okdata:dataset:whitelist")}"
+                            )
+                    )
+                )
+                .willReturn(
+                    aResponse()
+                        .withStatus(200)
+                        .withBody("""{"result": true}""")
+                )
+        )
+
+        resourceAuthorizer.isAuthorized(accessToken, scope, resourceName, useWhitelist = true) shouldBe true
+    }
+
+    @Test
+    fun `test authorize resource and scope whitelist override false`() {
+        val accessToken = "hdajfladfefdasfasjf"
+        val resourceName = "okdata:dataset:some-dataset"
+        val scope = "okdata:dataset:read"
+        wireMockServer.stubFor(
+            post(urlEqualTo("/token"))
+                .withHeader("Authorization", equalTo("Bearer $accessToken"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(
+                    matching(
+                        (
+                            "grant_type=${urlEncode("urn:ietf:params:oauth:grant-type:uma-ticket")}&" +
+                                "audience=${urlEncode(resourceServerClientId)}&" +
+                                "response_mode=decision&" +
+                                "permission=${urlEncode("$resourceName#$scope")}"
+                            )
+                    )
+                )
+                .willReturn(
+                    aResponse()
+                        .withStatus(403)
+                        .withBody("""{"error": "access_denied","error_description": "not_authorized"}""")
+                )
+        )
+
+        wireMockServer.stubFor(
+            post(urlEqualTo("/token"))
+                .withHeader("Authorization", equalTo("Bearer $accessToken"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(
+                    matching(
+                        (
+                            "grant_type=${urlEncode("urn:ietf:params:oauth:grant-type:uma-ticket")}&" +
+                                "audience=${urlEncode(resourceServerClientId)}&" +
+                                "response_mode=decision&" +
+                                "permission=${urlEncode("#okdata:dataset:whitelist")}"
+                            )
+                    )
+                )
+                .willReturn(
+                    aResponse()
+                        .withStatus(403)
+                        .withBody("""{"error": "access_denied","error_description": "not_authorized"}""")
+                )
+        )
+
+        resourceAuthorizer.isAuthorized(accessToken, scope, resourceName, useWhitelist = true) shouldBe false
     }
 
     fun urlEncode(parameterValue: String): String {
