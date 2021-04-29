@@ -12,7 +12,7 @@ abstract class DataplatformLoggingRequestHandler<I, O> : RequestHandler<I, O> {
 
     var dataplatformLogger = DataplatformLogger(LoggerFactory.getLogger(this::class.java))
 
-    fun logAdd(key: String, value: Any) {
+    fun logAdd(key: String, value: Any?) {
         dataplatformLogger.logAdd(key to value)
     }
 
