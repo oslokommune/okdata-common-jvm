@@ -1,3 +1,7 @@
+## 0.5.2
+
+* Allow null values in log entries
+
 ## 0.5.1
 
 * Rename ResourceAuthorizer.is_authorized -> ResourceAuthorizer.isAuthorized
