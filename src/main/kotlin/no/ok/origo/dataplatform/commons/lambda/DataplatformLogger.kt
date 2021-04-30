@@ -14,7 +14,7 @@ class DataplatformLogger(val logger: Logger) {
         private var coldStart = true
     }
 
-    private val logContent = mutableMapOf<String, Any>()
+    private val logContent = mutableMapOf<String, Any?>()
 
     fun logAdd(vararg statements: LogEntry) {
         logContent.putAll(statements)
@@ -54,8 +54,8 @@ class DataplatformLogger(val logger: Logger) {
     }
 }
 
-typealias LogEntry = Pair<String, Any>
+typealias LogEntry = Pair<String, Any?>
 
-fun Map<String, Any>.toJson(): String {
+fun Map<String, Any?>.toJson(): String {
     return jacksonObjectMapper().writeValueAsString(this)
 }

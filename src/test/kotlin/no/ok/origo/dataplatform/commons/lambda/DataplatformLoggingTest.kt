@@ -83,6 +83,16 @@ internal class DataplatformLoggingTest() : AnnotationSpec() {
     }
 
     @Test
+    fun `log null values`() {
+        val extraLogEntries = listOf(Pair("empty_value", null))
+        handler.logStuffAndHandleRequest(testContext, extraLogEntries)
+        logger.loggingEvents.size shouldBe 1
+        val statements: Map<String, Any> = om.readValue(logger.allLoggingEvents.single().message)
+        statements["aws_request_id"] shouldBe testContext.awsRequestId
+        statements["empty_value"] shouldBe null
+    }
+
+    @Test
     fun `log exceptions`() {
         logger = TestLoggerFactory.getTestLogger(DataplatformHandlerThrowsException::class.java)
         val out = ByteArrayOutputStream()
