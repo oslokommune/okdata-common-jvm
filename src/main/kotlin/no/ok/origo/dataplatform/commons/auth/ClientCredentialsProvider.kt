@@ -1,5 +1,6 @@
 package no.ok.origo.dataplatform.commons.auth
 
+import com.github.kittinunf.fuel.core.HttpException
 import no.ok.origo.dataplatform.commons.loggerFor
 
 class ClientCredentialsProvider(
@@ -20,7 +21,11 @@ class ClientCredentialsProvider(
             return when {
                 _token.accessTokenValid() -> _token
                 _token.refreshTokenValid() -> {
-                    _token = refreshToken()
+                    _token = try {
+                        refreshToken()
+                    } catch (e: HttpException) {
+                        newToken()
+                    }
                     return _token
                 }
                 else -> {

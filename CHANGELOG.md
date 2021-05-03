@@ -1,6 +1,8 @@
 ## 0.5.3
 
 * Increase token time drift to 10 seconds
+* Fix refresh of Keycloak access token when refresh token is invalid, e.g.
+  due to inactive session because Keycloak server restarted.
 
 ## 0.5.2
 
