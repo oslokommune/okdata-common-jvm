@@ -51,12 +51,12 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
     suspend fun supportShortLivedTokens() {
         val authToken = this::class.java.getResource("/keycloak/auth_token.json").readText()
         val expiredToken: AuthToken = om.readValue<AuthToken>(authToken).copy(
-            expiresIn = 5
+            expiresIn = 11
         )
         every { mockClient.tokenRequest(parameters = any()) } returns expiredToken
         val local = provider.newToken()
         local.accessTokenValid() shouldBe true
-        delay(5000)
+        delay(1000)
         local.accessTokenValid() shouldBe false
         provider.token.accessTokenValid() shouldBe true
     }

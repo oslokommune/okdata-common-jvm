@@ -31,4 +31,4 @@ data class AuthToken(
     }
 }
 
-val TOKEN_TIME_DRIFT = 4000
+val TOKEN_TIME_DRIFT = 10000

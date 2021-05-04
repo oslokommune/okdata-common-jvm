@@ -1,3 +1,7 @@
+## 0.5.3
+
+* Increase token time drift to 10 seconds
+
 ## 0.5.2
 
 * Allow null values in log entries
