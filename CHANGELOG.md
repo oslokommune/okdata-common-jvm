@@ -1,4 +1,4 @@
-## ?.?.?
+## 0.5.4
 
 * Handle tokens without refresh token (from Keycloak v12)
 
