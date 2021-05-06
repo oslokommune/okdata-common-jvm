@@ -25,4 +25,12 @@ internal class AuthTokenTest : AnnotationSpec() {
         val invalid = token.copy(refreshExpiresIn = 0)
         invalid.refreshTokenValid() shouldBe false
     }
+
+    @Test
+    fun handleNoRefreshToken() {
+        val valid = this::class.java.getResource("/keycloak/auth_token_without_refresh.json").readText()
+        val token = om.readValue<AuthToken>(valid)
+        token.accessTokenValid() shouldBe true
+        token.refreshTokenValid() shouldBe false
+    }
 }
