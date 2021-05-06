@@ -7,27 +7,29 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 data class AuthToken(
     val accessToken: String,
     val expiresIn: Int,
-    val refreshExpiresIn: Int,
-    val refreshToken: String,
+    val refreshExpiresIn: Int?,
+    val refreshToken: String?,
     val tokenType: String,
     @JsonProperty("not-before-policy") val notBeforePolicy: Long,
-    val sessionState: String,
+    val sessionState: String?,
     val scope: String
 ) {
     var accessTokenExpireTimestamp: Long
-    var refreshTokenExpireTimestamp: Long
+    var refreshTokenExpireTimestamp: Long?
 
     init {
         val now = System.currentTimeMillis()
         accessTokenExpireTimestamp = (now + expiresIn * 1000) - TOKEN_TIME_DRIFT
-        refreshTokenExpireTimestamp = (now + refreshExpiresIn * 1000) - TOKEN_TIME_DRIFT
+        refreshTokenExpireTimestamp =
+            if (refreshExpiresIn != null) (now + refreshExpiresIn * 1000) - TOKEN_TIME_DRIFT else null
     }
     fun accessTokenValid(): Boolean {
         return accessTokenExpireTimestamp > System.currentTimeMillis()
     }
 
     fun refreshTokenValid(): Boolean {
-        return refreshTokenExpireTimestamp > System.currentTimeMillis()
+        val ts = refreshTokenExpireTimestamp
+        return if (ts != null) ts > System.currentTimeMillis() else false
     }
 }
 

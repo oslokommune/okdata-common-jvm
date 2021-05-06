@@ -1,0 +1,7 @@
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6ImY4ZDFkMjg5LTJlMDgtNDAxOC1iNzA4LWYxY2QzZTBmODMyMiIsImlhdCI6MTU4MDkxMjg3MywiZXhwIjoxNTgwOTE2NDczfQ.xi8_wCmN8IpYsCCWZxJT7THjZ34muiUzsTEWLogIlpk",
+  "expires_in": 900,
+  "token_type": "bearer",
+  "not-before-policy": 1563194597,
+  "scope": "profile email"
+}

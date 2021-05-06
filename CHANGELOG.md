@@ -1,3 +1,7 @@
+## ?.?.?
+
+* Handle tokens without refresh token (from Keycloak v12)
+
 ## 0.5.3
 
 * Increase token time drift to 10 seconds
