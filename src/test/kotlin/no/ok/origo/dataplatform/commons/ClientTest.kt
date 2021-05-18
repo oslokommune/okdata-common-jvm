@@ -111,7 +111,6 @@ class ClientTest : AnnotationSpec() {
 
         error.message shouldBe "url: $testUrl\nrawResponseBody: I'm a teapot\nstatusCode: 418"
         assert(error.cause is HttpException)
-        assertAttempts(1, testRequest)
     }
 
     @Test
