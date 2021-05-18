@@ -87,7 +87,10 @@ abstract class DataplatformClient {
                     else -> when (exception) {
                         is SocketException, is SocketTimeoutException ->
                             throw ServerError(customErrorMsg(statusCode, url), exception)
-                        else -> throw UnforseenError(customErrorMsg(statusCode, url), exception)
+                        else -> throw UnforseenError(
+                            customErrorMsg(statusCode, response.body().asString("text/plain"), url),
+                            exception
+                        )
                     }
                 }
             }
@@ -104,6 +107,10 @@ abstract class DataplatformClient {
 
     private fun customErrorMsg(statusCode: Int, responseBody: StandardResponse, url: URL): String {
         return "url: $url\nstatusCode: $statusCode\nmessage: ${responseBody.message}"
+    }
+
+    private fun customErrorMsg(statusCode: Int, rawResponseBody: String, url: URL): String {
+        return "url: $url\nrawResponseBody: $rawResponseBody\nstatusCode: $statusCode"
     }
 
     private fun customErrorMsg(statusCode: Int, url: URL): String {
