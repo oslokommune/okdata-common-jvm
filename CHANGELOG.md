@@ -1,3 +1,7 @@
+## 0.5.5
+
+* Log raw response bodies on unforeseen errors
+
 ## 0.5.4
 
 * Handle tokens without refresh token (from Keycloak v12)
