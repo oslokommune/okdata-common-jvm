@@ -1,5 +1,9 @@
 ## 0.5.5
 
+* Add OkdataPermissionApiClient with method for removing team permissions
+
+## 0.5.5
+
 * Log raw response bodies on unforeseen errors
 
 ## 0.5.4
