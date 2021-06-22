@@ -7,7 +7,7 @@ import no.ok.origo.dataplatform.commons.StandardResponse
 import no.ok.origo.dataplatform.commons.auth.ClientCredentialsProvider
 import no.ok.origo.dataplatform.commons.readValue
 
-class OkdataPermissionApiClient(
+open class OkdataPermissionApiClient(
     private val okdataPermissionApiBaseUrl: String,
     private val clientCredentialsProvider: ClientCredentialsProvider,
 ) : AuthorizedClient, DataplatformClient() {
