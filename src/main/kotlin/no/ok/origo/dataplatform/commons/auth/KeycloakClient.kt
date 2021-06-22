@@ -7,11 +7,7 @@ import no.ok.origo.dataplatform.commons.ensureLast
 import no.ok.origo.dataplatform.commons.readValue
 
 class KeycloakClient(val server: String, val realm: String) : DataplatformClient() {
-    var tokenEndpoint: String
-
-    init {
-        tokenEndpoint = wellKnownConfiguration().get("token_endpoint").textValue()
-    }
+    lateinit var tokenEndpoint: String
 
     fun wellKnownConfiguration(): JsonNode {
         val request = Fuel.get(path = server.ensureLast('/') + "auth/realms/$realm/.well-known/openid-configuration")
@@ -19,6 +15,9 @@ class KeycloakClient(val server: String, val realm: String) : DataplatformClient
     }
 
     fun tokenRequest(parameters: List<Pair<String, String>>): AuthToken {
+        if (!this::tokenEndpoint.isInitialized) {
+            tokenEndpoint = wellKnownConfiguration().get("token_endpoint").textValue()
+        }
         val request = Fuel.post(path = tokenEndpoint, parameters = parameters)
         return performRequest(request).readValue(om)
     }

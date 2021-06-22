@@ -1,3 +1,8 @@
+## 0.6.1
+
+* OkdataPermissionApiClient is now an open class
+* Keycloak client no longer does a http call to well known endpoint in constructor
+
 ## 0.6.0
 
 * Add OkdataPermissionApiClient with method for removing team permissions
