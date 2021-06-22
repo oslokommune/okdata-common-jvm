@@ -1,3 +1,7 @@
+## 0.6.1
+
+* OkdataPermissionApiClient is now an open class
+
 ## 0.6.0
 
 * Add OkdataPermissionApiClient with method for removing team permissions
