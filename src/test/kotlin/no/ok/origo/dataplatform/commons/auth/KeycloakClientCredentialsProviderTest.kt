@@ -51,9 +51,8 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
     @Test
     suspend fun supportShortLivedTokens() {
         val authToken = om.readValue<AuthToken>(this::class.java.getResource("/keycloak/auth_token.json"))
-        val expiredToken = authToken.copy(expiresIn = 11)
-        every { mockClient.tokenRequest(parameters = any()) } returns expiredToken
-        val local = provider.newToken()
+        every { mockClient.tokenRequest(parameters = any()) } returns authToken.copy(expiresIn = 11) andThen authToken
+        val local = provider.token
         local.accessTokenValid() shouldBe true
         delay(1000)
         local.accessTokenValid() shouldBe false
@@ -65,17 +64,16 @@ internal class KeycloakClientCredentialsProviderTest : AnnotationSpec() {
         val authToken = om.readValue<AuthToken>(this::class.java.getResource("/keycloak/auth_token.json"))
         val expiredToken = authToken.copy(expiresIn = 3)
 
-        val exception = HttpException(400, "invalid session")
-        every { mockClient.tokenRequest(parameters = any()) } returns expiredToken andThenThrows exception andThen authToken
-
-        // Create provider here to have it initialize with the expired token
         provider = ClientCredentialsProvider(
             "client-id",
             clientSecret = "secret-key",
             client = mockClient
         )
 
-        val local = provider.token
-        local.accessTokenValid() shouldBe true
+        val exception = HttpException(400, "invalid session")
+        every { mockClient.tokenRequest(parameters = any()) } returns expiredToken andThenThrows exception andThen authToken
+
+        provider.token.accessTokenValid() shouldBe false
+        provider.token.accessTokenValid() shouldBe true
     }
 }
