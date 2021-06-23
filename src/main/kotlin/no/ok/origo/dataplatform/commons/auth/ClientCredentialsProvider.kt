@@ -1,24 +1,22 @@
 package no.ok.origo.dataplatform.commons.auth
 
 import com.github.kittinunf.fuel.core.HttpException
-import no.ok.origo.dataplatform.commons.loggerFor
 
 class ClientCredentialsProvider(
     val clientId: String,
     val clientSecret: String,
     val client: KeycloakClient
 ) {
-    private val logger = loggerFor(javaClass)
 
-    private var _token: AuthToken
-
-    init {
-        _token = newToken()
-    }
+    private lateinit var _token: AuthToken
 
     val token: AuthToken
         get() {
             return when {
+                !this::_token.isInitialized -> {
+                    _token = newToken()
+                    return _token
+                }
                 _token.accessTokenValid() -> _token
                 _token.refreshTokenValid() -> {
                     _token = try {
