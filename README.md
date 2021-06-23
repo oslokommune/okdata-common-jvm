@@ -7,7 +7,7 @@ Library for common functionality for dataplatform components.
 
 Releasing new patch:
 ```
-git checkout master
+git checkout main
 git pull
 ./gradlew clean build
 ./gradlew publish
@@ -19,7 +19,7 @@ git push --follow-tags
 
 Releasing new minor version:
 ```
-git checkout master
+git checkout main
 git pull
 Change incrementPatch -> incrementMinor in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
 ./gradlew clean build
@@ -33,7 +33,7 @@ git push --follow-tags
 
 Releasing new major version:
 ```
-git checkout master
+git checkout main
 git pull
 Change incrementPatch -> incrementMajor in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
 ./gradlew clean build
