@@ -1,3 +1,7 @@
+## 0.6.2
+
+* KeycloakClientCredentialsProvider no longer does a http call to token endpoint in constructor
+
 ## 0.6.1
 
 * OkdataPermissionApiClient is now an open class
