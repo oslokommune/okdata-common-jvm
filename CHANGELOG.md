@@ -1,3 +1,8 @@
+## 0.7.0
+
+* Library is now released on jitpack.io
+* New uri for dependency: com.github.oslokommune:okdata-common-jvm:X.Y.Z
+
 ## 0.6.2
 
 * KeycloakClientCredentialsProvider no longer does a http call to token endpoint in constructor
