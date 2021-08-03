@@ -5,42 +5,29 @@ Library for common functionality for dataplatform components.
 
 ## Publishing new releases
 
-Releasing new patch:
+Releasing new version:
 ```
 git checkout main
 git pull
 ./gradlew clean build
-./gradlew publish
+./gradlew incrementPatch|incrementMinor|incrementMajor
 git add .
 git commit -m "Release <new-version>"
 git tag -a v<new-version> -m "Release <new-version>"
 git push --follow-tags
 ```
 
-Releasing new minor version:
-```
-git checkout main
-git pull
-Change incrementPatch -> incrementMinor in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
-./gradlew clean build
-./gradlew publish
-Change back to incrementPatch in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
-git add .
-git commit -m "Release <new-version>"
-git tag -a v<new-version> -m "Release <new-version>"
-git push --follow-tags
-```
+Now the new release will be picked up by jitpack.io and be built and released.
 
-Releasing new major version:
+## Using the library
+
+Add to build.gradle:
 ```
-git checkout main
-git pull
-Change incrementPatch -> incrementMajor in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
-./gradlew clean build
-./gradlew publish
-Change back to incrementPatch in build.gradle:generateMetadataFileForCommonJvmPublication:dependsOn
-git add .
-git commit -m "Release <new-version>"
-git tag -a v<new-version> -m "Release <new-version>"
-git push --follow-tags
+repositories {
+  maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+  implementation 'com.github.oslokommune:okdata-common-jvm:X.Y.Z'
+}
 ```

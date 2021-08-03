@@ -50,20 +50,8 @@ compileTestKotlin {
 
 publishing {
   publications{
-    commonJvm(MavenPublication){
+    okdataCommonJvm(MavenPublication){
       from components.java
-      artifactId = 'common-jvm'
-      versionMapping {
-        usage('java-api') {
-          fromResolutionOf('runtimeClasspath')
-        }
-      }
-    }
-  }
-  repositories {
-    maven {
-      name = "NexusOK"
-      url = "https://artifacts.oslo.kommune.no/repository/maven-releases"
     }
   }
 }
@@ -76,10 +64,4 @@ build {
 java {
   withSourcesJar()
   withJavadocJar()
-}
-
-generateMetadataFileForCommonJvmPublication {
-  dependsOn {
-    incrementPatch
-  }
 }
