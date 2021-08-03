@@ -9,6 +9,7 @@ Releasing new version:
 ```
 git checkout main
 git pull
+./gradlew clean build
 ./gradlew incrementPatch|incrementMinor|incrementMajor
 git add .
 git commit -m "Release <new-version>"
