@@ -17,10 +17,11 @@ git tag -a v<new-version> -m "Release <new-version>"
 git push --follow-tags
 ```
 
-Now the new patch will be picked up by jitpack.io and be built and released.
+Now the new release will be picked up by jitpack.io and be built and released.
 
-## Using the library:
-Add to build.gradle : 
+## Using the library
+
+Add to build.gradle:
 ```
 repositories {
   maven { url 'https://jitpack.io' }
