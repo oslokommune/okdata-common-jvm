@@ -26,7 +26,7 @@ class ResourceAuthorizerTest : AnnotationSpec() {
     fun startWiremockAndKeycloakMock() {
         wireMockServer.start()
         every {
-            keycloakClient.tokenEndpoint
+            keycloakClient.getTokenEndpoint()
         } returns "http://localhost:${wireMockServer.port()}/token"
     }
 
