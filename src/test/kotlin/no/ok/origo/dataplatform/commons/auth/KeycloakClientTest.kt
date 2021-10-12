@@ -72,6 +72,6 @@ internal class KeycloakClientTest : AnnotationSpec() {
                 )
         )
         keycloakClient.tokenRequest(parameters) shouldBe om.readValue<AuthToken>(authToken)
-        keycloakClient.getTokenEndpoint()shouldBe tokenUrl
+        keycloakClient.getTokenEndpoint() shouldBe tokenUrl
     }
 }
