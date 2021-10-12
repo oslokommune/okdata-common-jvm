@@ -20,7 +20,7 @@ class ResourceAuthorizer(
             "response_mode" to "decision",
             "permission" to "${resource ?: ""}#$scope"
         )
-        val authorizationRequest = Fuel.post(keycloakClient.tokenEndpoint, authParameters)
+        val authorizationRequest = Fuel.post(keycloakClient.getTokenEndpoint(), authParameters)
             .header(
                 mapOf(
                     "Authorization" to "Bearer $accessToken",
