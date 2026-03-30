@@ -1,3 +1,12 @@
+## 0.7.2
+
+* Unbreak the build by removing the obsolete JCenter repository and upgrading
+  Fuel to a version that exists in Maven Central
+
+## 0.7.1
+
+* Ensure that lateinit var is not referenced outside of class
+
 ## 0.7.0
 
 * Library is now released on jitpack.io
